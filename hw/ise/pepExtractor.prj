@@ -1,0 +1,5 @@
+work	"heater.vhd"
+work	"heater_array.vhd"
+work	"ipcore_dir/clkwizard/example_design/clkwizard_exdes.vhd"
+work	"ipcore_dir/clkwizard_testcircuit/example_design/clkwizard_testcircuit_exdes.vhd"
+work	"lut_oscillator.vhd"

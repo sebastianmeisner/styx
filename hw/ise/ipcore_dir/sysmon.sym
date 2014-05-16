@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<symbol version="7" name="sysmon">
+    <symboltype>BLOCK</symboltype>
+    <timestamp>2013-7-3T11:7:50</timestamp>
+    <pin polarity="Input" x="0" y="208" name="dclk_in" />
+    <pin polarity="Input" x="0" y="272" name="reset_in" />
+    <pin polarity="Input" x="0" y="400" name="vp_in" />
+    <pin polarity="Input" x="0" y="432" name="vn_in" />
+    <pin polarity="Output" x="672" y="176" name="user_temp_alarm_out" />
+    <pin polarity="Output" x="672" y="208" name="vccint_alarm_out" />
+    <pin polarity="Output" x="672" y="240" name="vccaux_alarm_out" />
+    <pin polarity="Output" x="672" y="272" name="ot_out" />
+    <pin polarity="Output" x="672" y="336" name="channel_out[4:0]" />
+    <pin polarity="Output" x="672" y="368" name="eoc_out" />
+    <pin polarity="Output" x="672" y="400" name="eos_out" />
+    <pin polarity="Output" x="672" y="432" name="busy_out" />
+    <pin polarity="Output" x="672" y="464" name="jtaglocked_out" />
+    <pin polarity="Output" x="672" y="496" name="jtagmodified_out" />
+    <pin polarity="Output" x="672" y="528" name="jtagbusy_out" />
+    <graph>
+        <text style="fontsize:40;fontname:Arial" x="32" y="32">sysmon</text>
+        <rect width="608" x="32" y="32" height="1472" />
+        <line x2="32" y1="208" y2="208" x1="0" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="36" y="208" type="pin dclk_in" />
+        <line x2="32" y1="272" y2="272" x1="0" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="36" y="272" type="pin reset_in" />
+        <line x2="32" y1="400" y2="400" x1="0" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="36" y="400" type="pin vp_in" />
+        <line x2="32" y1="432" y2="432" x1="0" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="36" y="432" type="pin vn_in" />
+        <line x2="640" y1="176" y2="176" x1="672" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="636" y="176" type="pin user_temp_alarm_out" />
+        <line x2="640" y1="208" y2="208" x1="672" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="636" y="208" type="pin vccint_alarm_out" />
+        <line x2="640" y1="240" y2="240" x1="672" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="636" y="240" type="pin vccaux_alarm_out" />
+        <line x2="640" y1="272" y2="272" x1="672" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="636" y="272" type="pin ot_out" />
+        <line x2="640" y1="336" y2="336" style="linewidth:W" x1="672" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="636" y="336" type="pin channel_out[4:0]" />
+        <line x2="640" y1="368" y2="368" x1="672" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="636" y="368" type="pin eoc_out" />
+        <line x2="640" y1="400" y2="400" x1="672" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="636" y="400" type="pin eos_out" />
+        <line x2="640" y1="432" y2="432" x1="672" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="636" y="432" type="pin busy_out" />
+        <line x2="640" y1="464" y2="464" x1="672" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="636" y="464" type="pin jtaglocked_out" />
+        <line x2="640" y1="496" y2="496" x1="672" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="636" y="496" type="pin jtagmodified_out" />
+        <line x2="640" y1="528" y2="528" x1="672" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="636" y="528" type="pin jtagbusy_out" />
+    </graph>
+</symbol>

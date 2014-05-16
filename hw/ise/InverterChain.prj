@@ -1,0 +1,4 @@
+vhdl work "InverterElemP.vhd"
+vhdl work "InverterChain.vhd"
+vhdl work "ipcore_dir/clkwizard_testcircuit/example_design/clkwizard_testcircuit_exdes.vhd"
+vhdl work "ipcore_dir/clkwizard/example_design/clkwizard_exdes.vhd"

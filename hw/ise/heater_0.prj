@@ -1,0 +1,4 @@
+vhdl work "lut_oscillator.vhd"
+vhdl work "heater_0_on.vhd"
+vhdl work "ipcore_dir/clkwizard/example_design/clkwizard_exdes.vhd"
+vhdl work "ipcore_dir/clkwizard_testcircuit/example_design/clkwizard_testcircuit_exdes.vhd"

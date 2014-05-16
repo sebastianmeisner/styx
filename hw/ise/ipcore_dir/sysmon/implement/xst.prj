@@ -1,0 +1,2 @@
+vhdl work ../../sysmon.vhd
+vhdl work ../example_design/sysmon_exdes.vhd

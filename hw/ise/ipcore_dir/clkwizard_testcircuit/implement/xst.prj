@@ -1,0 +1,2 @@
+vhdl work ../../clkwizard_testcircuit.vhd
+vhdl work ../example_design/clkwizard_testcircuit_exdes.vhd

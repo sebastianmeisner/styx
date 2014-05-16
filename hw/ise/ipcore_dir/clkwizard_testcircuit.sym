@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<symbol version="7" name="clkwizard_testcircuit">
+    <symboltype>BLOCK</symboltype>
+    <timestamp>2013-10-11T16:18:35</timestamp>
+    <pin polarity="Input" x="0" y="80" name="clk_in1" />
+    <pin polarity="Input" x="0" y="432" name="reset" />
+    <pin polarity="Input" x="0" y="464" name="power_down" />
+    <pin polarity="Input" x="0" y="560" name="daddr[6:0]" />
+    <pin polarity="Input" x="0" y="592" name="dclk" />
+    <pin polarity="Input" x="0" y="624" name="den" />
+    <pin polarity="Input" x="0" y="656" name="din[15:0]" />
+    <pin polarity="Output" x="0" y="688" name="dout[15:0]" />
+    <pin polarity="Output" x="0" y="720" name="drdy" />
+    <pin polarity="Input" x="0" y="752" name="dwe" />
+    <pin polarity="Output" x="608" y="80" name="clk_out1" />
+    <pin polarity="Output" x="608" y="176" name="clk_out2" />
+    <pin polarity="Output" x="608" y="272" name="clk_out3" />
+    <pin polarity="Output" x="608" y="368" name="clk_out4" />
+    <pin polarity="Output" x="608" y="976" name="locked" />
+    <graph>
+        <text style="fontsize:40;fontname:Arial" x="32" y="32">clkwizard_testcircuit</text>
+        <rect width="544" x="32" y="32" height="1056" />
+        <line x2="32" y1="80" y2="80" x1="0" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="36" y="80" type="pin clk_in1" />
+        <line x2="32" y1="432" y2="432" x1="0" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="36" y="432" type="pin reset" />
+        <line x2="32" y1="464" y2="464" x1="0" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="36" y="464" type="pin power_down" />
+        <line x2="32" y1="560" y2="560" style="linewidth:W" x1="0" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="36" y="560" type="pin daddr[6:0]" />
+        <line x2="32" y1="592" y2="592" x1="0" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="36" y="592" type="pin dclk" />
+        <line x2="32" y1="624" y2="624" x1="0" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="36" y="624" type="pin den" />
+        <line x2="32" y1="656" y2="656" style="linewidth:W" x1="0" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="36" y="656" type="pin din[15:0]" />
+        <line x2="32" y1="688" y2="688" style="linewidth:W" x1="0" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="36" y="688" type="pin dout[15:0]" />
+        <line x2="32" y1="720" y2="720" x1="0" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="36" y="720" type="pin drdy" />
+        <line x2="32" y1="752" y2="752" x1="0" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="36" y="752" type="pin dwe" />
+        <line x2="576" y1="80" y2="80" x1="608" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="572" y="80" type="pin clk_out1" />
+        <line x2="576" y1="176" y2="176" x1="608" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="572" y="176" type="pin clk_out2" />
+        <line x2="576" y1="272" y2="272" x1="608" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="572" y="272" type="pin clk_out3" />
+        <line x2="576" y1="368" y2="368" x1="608" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="572" y="368" type="pin clk_out4" />
+        <line x2="576" y1="976" y2="976" x1="608" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="572" y="976" type="pin locked" />
+    </graph>
+</symbol>

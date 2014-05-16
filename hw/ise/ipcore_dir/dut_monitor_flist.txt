@@ -1,0 +1,18 @@
+# Output products list for <dut_monitor>
+dut_monitor.asy
+dut_monitor.bmm
+dut_monitor.gise
+dut_monitor.ngc
+dut_monitor.sym
+dut_monitor.vhd
+dut_monitor.vho
+dut_monitor.xco
+dut_monitor.xise
+dut_monitor\mb_bootloop_le.elf
+dut_monitor\microblaze_mcs_setup.tcl
+dut_monitor\system_template.tcl
+dut_monitor_flist.txt
+dut_monitor_readme.txt
+dut_monitor_sdk.xml
+mb_bootloop_le.elf
+microblaze_mcs_setup.tcl

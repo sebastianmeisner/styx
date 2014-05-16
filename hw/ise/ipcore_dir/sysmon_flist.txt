@@ -1,0 +1,27 @@
+# Output products list for <sysmon>
+_xmsgs/pn_parser.xmsgs
+sysmon/doc/sysmon_wiz_ds608.pdf
+sysmon/doc/sysmon_wiz_gsg741.pdf
+sysmon/example_design/sysmon_exdes.vhd
+sysmon/implement/implement.bat
+sysmon/implement/implement.sh
+sysmon/implement/xst.prj
+sysmon/implement/xst.scr
+sysmon/simulation/functional/simcmds.tcl
+sysmon/simulation/functional/simulate_isim.bat
+sysmon/simulation/functional/simulate_isim.sh
+sysmon/simulation/functional/simulate_mti.do
+sysmon/simulation/functional/simulate_ncsim.sh
+sysmon/simulation/functional/sysmon_ins.txt
+sysmon/simulation/functional/wave.do
+sysmon/simulation/sysmon_tb.vhd
+sysmon/sysmon_wiz_readme.txt
+sysmon.asy
+sysmon.gise
+sysmon.sym
+sysmon.vhd
+sysmon.vho
+sysmon.xco
+sysmon.xise
+sysmon_flist.txt
+sysmon_xmdf.tcl
