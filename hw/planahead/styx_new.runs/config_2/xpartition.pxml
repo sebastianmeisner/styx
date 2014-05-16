@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Project Name="config_2" FileVersion="1.2" ProjectVersion="2.0">
+	<Partition Name="/main" State="import" ImportLocation="../../styx_new.promote/Xconfig_1" Preserve="routing">
+		<Partition Name="/main/heater_5_ins" State="implement" ImportLocation="NONE" Reconfigurable="true" ReconfigModuleName="heater_5_off">
+		</Partition>
+		<Partition Name="/main/heater_0_ins" State="implement" ImportLocation="NONE" Reconfigurable="true" ReconfigModuleName="heater_0_off">
+		</Partition>
+		<Partition Name="/main/heater_1_ins" State="implement" ImportLocation="NONE" Reconfigurable="true" ReconfigModuleName="heater_1_off">
+		</Partition>
+		<Partition Name="/main/heater_2_ins" State="implement" ImportLocation="NONE" Reconfigurable="true" ReconfigModuleName="heater_2_off">
+		</Partition>
+		<Partition Name="/main/heater_3_ins" State="implement" ImportLocation="NONE" Reconfigurable="true" ReconfigModuleName="heater_3_off">
+		</Partition>
+		<Partition Name="/main/heater_4_ins" State="implement" ImportLocation="NONE" Reconfigurable="true" ReconfigModuleName="heater_4_off">
+		</Partition>
+	</Partition>
+</Project>
+

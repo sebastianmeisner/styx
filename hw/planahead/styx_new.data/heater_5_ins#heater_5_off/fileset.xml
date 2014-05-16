@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DARoots Version="1" Minor="26">
+  <FileSet Name="heater_5_ins#heater_5_off" Type="Reconfig" RelSrcDir="$PSRCDIR/heater_5_ins#heater_5_off">
+    <Filter Type=""/>
+    <File Path="$PSRCDIR/heater_5_ins#heater_5_off/imports/heater_off/heater_5.ngc">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../Dynamische Rekonfiguration/syn/heater_off/heater_5.ngc"/>
+        <Attr Name="ImportTime" Val="1399560242"/>
+        <Attr Name="UsedInSynthesis" Val="1"/>
+        <Attr Name="UsedInImplementation" Val="1"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="GateLvl"/>
+      <Option Name="GateLvlMode" Val="EDIF"/>
+      <Option Name="TopFile" Val="$PSRCDIR/heater_5_ins#heater_5_off/imports/heater_off/heater_5.ngc"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+      <Option Name="Partition" Val="heater_5_ins"/>
+      <Option Name="ReconfigModule" Val="heater_5_off"/>
+    </Config>
+  </FileSet>
+</DARoots>

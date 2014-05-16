@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<PartialReconfig Version="1" Minor="8">
+	<Partitions>
+		<Partition Name="main" Reconfigurable="FALSE" PromotedLocation="$PROMOTEDIR/Xconfig_1">
+			<Partition Name="heater_0_ins" CurrPRModule="heater_0_off" Reconfigurable="TRUE">
+				<PRModule Name="heater_0_on" PromotedLocation="$PROMOTEDIR/Xconfig_1">
+				</PRModule>
+				<PRModule Name="heater_0_off">
+				</PRModule>
+			</Partition>
+			<Partition Name="heater_1_ins" CurrPRModule="heater_1_off" Reconfigurable="TRUE">
+				<PRModule Name="heater_1_on" PromotedLocation="$PROMOTEDIR/Xconfig_1">
+				</PRModule>
+				<PRModule Name="heater_1_off">
+				</PRModule>
+			</Partition>
+			<Partition Name="heater_2_ins" CurrPRModule="heater_2_off" Reconfigurable="TRUE">
+				<PRModule Name="heater_2_on" PromotedLocation="$PROMOTEDIR/Xconfig_1">
+				</PRModule>
+				<PRModule Name="heater_2_off">
+				</PRModule>
+			</Partition>
+			<Partition Name="heater_3_ins" CurrPRModule="heater_3_off" Reconfigurable="TRUE">
+				<PRModule Name="heater_3_on" PromotedLocation="$PROMOTEDIR/Xconfig_1">
+				</PRModule>
+				<PRModule Name="heater_3_off">
+				</PRModule>
+			</Partition>
+			<Partition Name="heater_4_ins" CurrPRModule="heater_4_off" Reconfigurable="TRUE">
+				<PRModule Name="heater_4_on" PromotedLocation="$PROMOTEDIR/Xconfig_1">
+				</PRModule>
+				<PRModule Name="heater_4_off">
+				</PRModule>
+			</Partition>
+			<Partition Name="heater_5_ins" CurrPRModule="heater_5_off" Reconfigurable="TRUE">
+				<PRModule Name="heater_5_on" PromotedLocation="$PROMOTEDIR/Xconfig_1">
+				</PRModule>
+				<PRModule Name="heater_5_off">
+				</PRModule>
+			</Partition>
+		</Partition>
+	</Partitions>
+	<Configs>
+		<Config Name="config_1" State="PROMOTED" PromotedLocation="$PROMOTEDIR/Xconfig_1" RunType="Implementation">
+			<PRConfigInst PRInst="main" State="IMPLEMENT">
+			</PRConfigInst>
+			<PRConfigInst PRInst="heater_5_ins" PRModule="heater_5_on" State="IMPLEMENT">
+			</PRConfigInst>
+			<PRConfigInst PRInst="heater_0_ins" PRModule="heater_0_on" State="IMPLEMENT">
+			</PRConfigInst>
+			<PRConfigInst PRInst="heater_1_ins" PRModule="heater_1_on" State="IMPLEMENT">
+			</PRConfigInst>
+			<PRConfigInst PRInst="heater_2_ins" PRModule="heater_2_on" State="IMPLEMENT">
+			</PRConfigInst>
+			<PRConfigInst PRInst="heater_3_ins" PRModule="heater_3_on" State="IMPLEMENT">
+			</PRConfigInst>
+			<PRConfigInst PRInst="heater_4_ins" PRModule="heater_4_on" State="IMPLEMENT">
+			</PRConfigInst>
+		</Config>
+		<Config Name="config_2" State="IMPLEMENTED" RunType="Implementation">
+			<PRConfigInst PRInst="main" State="IMPORT" ImportLocation="$PROMOTEDIR/Xconfig_1">
+			</PRConfigInst>
+			<PRConfigInst PRInst="heater_5_ins" PRModule="heater_5_off" State="IMPLEMENT">
+			</PRConfigInst>
+			<PRConfigInst PRInst="heater_0_ins" PRModule="heater_0_off" State="IMPLEMENT">
+			</PRConfigInst>
+			<PRConfigInst PRInst="heater_1_ins" PRModule="heater_1_off" State="IMPLEMENT">
+			</PRConfigInst>
+			<PRConfigInst PRInst="heater_2_ins" PRModule="heater_2_off" State="IMPLEMENT">
+			</PRConfigInst>
+			<PRConfigInst PRInst="heater_3_ins" PRModule="heater_3_off" State="IMPLEMENT">
+			</PRConfigInst>
+			<PRConfigInst PRInst="heater_4_ins" PRModule="heater_4_off" State="IMPLEMENT">
+			</PRConfigInst>
+		</Config>
+	</Configs>
+</PartialReconfig>
+

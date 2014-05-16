@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DARoots Version="1" Minor="26">
+  <FileSet Name="heater_5_ins#heater_5_on" Type="Reconfig" RelSrcDir="$PSRCDIR/heater_5_ins#heater_5_on">
+    <Filter Type=""/>
+    <File Path="$PSRCDIR/heater_5_ins#heater_5_on/imports/heater_on/heater_5.ngc">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../Dynamische Rekonfiguration/syn/heater_on/heater_5.ngc"/>
+        <Attr Name="ImportTime" Val="1399560254"/>
+        <Attr Name="UsedInSynthesis" Val="1"/>
+        <Attr Name="UsedInImplementation" Val="1"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+</DARoots>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Interface Version="1" Minor="1">
+	<Ifc Id="ROOT" Top="1">
+		<Port Id="SYSCLK_N" Dir="IN"/>
+		<Port Id="SYSCLK_P" Dir="IN"/>
+		<Port Id="USB_1_RX" Dir="IN"/>
+		<Port Id="CPU_RESET" Dir="IN"/>
+		<Port Id="USB_1_TX" Dir="OUT"/>
+		<Port Id="gpio_led_0" Dir="OUT"/>
+		<Port Id="gpio_led_1" Dir="OUT"/>
+		<Port Id="gpio_led_2" Dir="OUT"/>
+		<Port Id="gpio_led_3" Dir="OUT"/>
+		<Port Id="gpio_led_4" Dir="OUT"/>
+		<Port Id="gpio_led_5" Dir="OUT"/>
+		<DiffPair Pos="SYSCLK_P" Neg="SYSCLK_N"/>
+	</Ifc>
+</Interface>
+

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<PromoteLog Version="1" Minor="2">
+	<Run Name="config_1">
+	</Run>
+	<Partitions Names="main|heater_5_ins|heater_0_ins|heater_1_ins|heater_2_ins|heater_3_ins|heater_4_ins">
+	</Partitions>
+	<UserNote Text="">
+	</UserNote>
+</PromoteLog>
+
