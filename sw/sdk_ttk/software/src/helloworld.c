@@ -42,6 +42,8 @@ enum states {
 };
 enum states state = init;
 
+// Input frequency of the second MMCM clock generator in kHz
+int mmcm_input_freq = 350000;
 
 /**
  * Array section
@@ -141,7 +143,7 @@ void oneSecondInterruptRoutine( void* ip) {
 		increaseFrequency();
 		XIOModule_Enable(&iomdle, 31); 	// Activate Error-Observation Interrupt
 	}
-	xil_printf("%d; %d; %d; %d; %d; %d; %d; %d; %d;\n\r", second, count_errors, count_errors_all, series_index, m_values[series_index], d_values[series_index], o_values[series_index], 350*m_values[series_index]/(d_values[series_index]*o_values[series_index]), 10000000000/m_ms);
+	xil_printf("%d; %d; %d; %d; %d; %d; %d; %d; %d;\n\r", second, count_errors, count_errors_all, series_index, m_values[series_index], d_values[series_index], o_values[series_index], (mmcm_input_freq/(d_values[series_index]*o_values[series_index]))*m_values[series_index], 10000000000/m_ms);
 	count_errors = 0;
 }
 
