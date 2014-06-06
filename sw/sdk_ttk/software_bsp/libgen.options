@@ -1,0 +1,3 @@
+PROCESSOR=dut_monitor
+REPOSITORIES=
+HWSPEC=../ttk/system.xml

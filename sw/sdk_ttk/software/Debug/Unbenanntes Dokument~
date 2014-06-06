@@ -1,0 +1,507 @@
+-rw-rw-r-- 1 podelko podelko  315 Aug 20 16:24 static_bitgen.xwbt
+-rw-rw-r-- 1 podelko podelko 7.1K Aug 20 16:27 static_led_control_ins_led_on_partial.bgn
+-rw-rw-r-- 1 podelko podelko  13K Aug 20 16:27 static_led_control_ins_led_on_partial.bin
+-rw-rw-r-- 1 podelko podelko  13K Aug 20 16:27 static_led_control_ins_led_on_partial.bit
+-rw-rw-r-- 1 podelko podelko  185 Aug 20 16:26 static_led_control_ins_led_on_partial.drc
+-rw-rw-r-- 1 podelko podelko 6.4K Aug 20 16:15 static_map.map
+-rw-rw-r-- 1 podelko podelko 9.6K Aug 20 16:15 static_map.mrp
+-rw-rw-r-- 1 podelko podelko  80K Aug 20 16:15 static_map.ncd
+-rw-rw-r-- 1 podelko podelko 1.1M Aug 20 16:13 static_map.ngm
+-rw-rw-r-- 1 podelko podelko  25K Aug 20 16:15 static_map.xrpt
+-rw-rw-r-- 1 podelko podelko  80K Aug 20 16:15 static_map_prev_mapped.ncd
+-rw-rw-r-- 1 podelko podelko 1.1M Aug 20 16:15 static_map_prev_mapped.ngm
+-rw-rw-r-- 1 podelko podelko 5.3K Aug 20 16:12 static_ngdbuild.xrpt
+-rw-rw-r-- 1 podelko podelko  42K Aug 20 16:20 static_pad.csv
+-rw-rw-r-- 1 podelko podelko 219K Aug 20 16:20 static_pad.txt
+-rw-rw-r-- 1 podelko podelko 447K Aug 20 16:20 static_par.xrpt
+-rw-rw-r-- 1 podelko podelko 2.2K Aug 20 16:12 static_prev_built.ngd
+-rw-rw-r-- 1 podelko podelko 211K Aug 20 16:19 static_prev_routed.ncd
+-rw-rw-r-- 1 podelko podelko  404 Aug 20 16:27 static_summary.xml
+-rw-rw-r-- 1 podelko podelko  56K Aug 20 16:27 static_usage.xml
+-rw-rw-r-- 1 podelko podelko  59K Aug 20 16:27 usage_statistics_webtalk.html
+-rw-rw-r-- 1 podelko podelko  704 Aug 20 16:27 webtalk.log
+drwxrwxr-x 2 podelko podelko 4.0K Aug 20 16:12 xlnx_auto_0_xdb
+-rw-rw-r-- 1 podelko podelko  325 Aug 20 16:03 xpartition.pxml
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp/led_on$ ls -la 
+total 21920
+drwxrwxr-x 4 podelko podelko    4096 Aug 20 16:27 .
+drwxrwxr-x 4 podelko podelko    4096 Aug 20 15:55 ..
+drwxrwxr-x 2 podelko podelko    4096 Aug 20 16:21 _xmsgs
+-rw-rw-r-- 1 podelko podelko     126 Aug 20 16:12 netlist.lst
+-rw-rw-r-- 1 podelko podelko    7108 Aug 20 16:24 static.bgn
+-rw-rw-r-- 1 podelko podelko 9232444 Aug 20 16:24 static.bin
+-rw-rw-r-- 1 podelko podelko 9232538 Aug 20 16:24 static.bit
+-rw-rw-r-- 1 podelko podelko    1322 Aug 20 16:12 static.bld
+-rw-rw-r-- 1 podelko podelko     185 Aug 20 16:23 static.drc
+-rw-rw-r-- 1 podelko podelko  215953 Aug 20 16:20 static.ncd
+-rw-rw-r-- 1 podelko podelko    2170 Aug 20 16:12 static.ngd
+-rw-rw-r-- 1 podelko podelko   42937 Aug 20 16:20 static.pad
+-rw-rw-r-- 1 podelko podelko    6713 Aug 20 16:20 static.par
+-rw-rw-r-- 1 podelko podelko     418 Aug 20 16:14 static.pcf
+-rw-rw-r-- 1 podelko podelko   16463 Aug 20 16:19 static.ptwx
+-rw-rw-r-- 1 podelko podelko     157 Aug 20 16:20 static.unroutes
+-rw-rw-r-- 1 podelko podelko      43 Aug 20 16:20 static.xpi
+-rw-rw-r-- 1 podelko podelko     315 Aug 20 16:24 static_bitgen.xwbt
+-rw-rw-r-- 1 podelko podelko    7252 Aug 20 16:27 static_led_control_ins_led_on_partial.bgn
+-rw-rw-r-- 1 podelko podelko   12644 Aug 20 16:27 static_led_control_ins_led_on_partial.bin
+-rw-rw-r-- 1 podelko podelko   12738 Aug 20 16:27 static_led_control_ins_led_on_partial.bit
+-rw-rw-r-- 1 podelko podelko     185 Aug 20 16:26 static_led_control_ins_led_on_partial.drc
+-rw-rw-r-- 1 podelko podelko    6480 Aug 20 16:15 static_map.map
+-rw-rw-r-- 1 podelko podelko    9729 Aug 20 16:15 static_map.mrp
+-rw-rw-r-- 1 podelko podelko   81098 Aug 20 16:15 static_map.ncd
+-rw-rw-r-- 1 podelko podelko 1138543 Aug 20 16:13 static_map.ngm
+-rw-rw-r-- 1 podelko podelko   24594 Aug 20 16:15 static_map.xrpt
+-rw-rw-r-- 1 podelko podelko   81098 Aug 20 16:15 static_map_prev_mapped.ncd
+-rw-rw-r-- 1 podelko podelko 1138543 Aug 20 16:15 static_map_prev_mapped.ngm
+-rw-rw-r-- 1 podelko podelko    5344 Aug 20 16:12 static_ngdbuild.xrpt
+-rw-rw-r-- 1 podelko podelko   42970 Aug 20 16:20 static_pad.csv
+-rw-rw-r-- 1 podelko podelko  223836 Aug 20 16:20 static_pad.txt
+-rw-rw-r-- 1 podelko podelko  457249 Aug 20 16:20 static_par.xrpt
+-rw-rw-r-- 1 podelko podelko    2170 Aug 20 16:12 static_prev_built.ngd
+-rw-rw-r-- 1 podelko podelko  215953 Aug 20 16:19 static_prev_routed.ncd
+-rw-rw-r-- 1 podelko podelko     404 Aug 20 16:27 static_summary.xml
+-rw-rw-r-- 1 podelko podelko   56750 Aug 20 16:27 static_usage.xml
+-rw-rw-r-- 1 podelko podelko   60368 Aug 20 16:27 usage_statistics_webtalk.html
+-rw-rw-r-- 1 podelko podelko     704 Aug 20 16:27 webtalk.log
+drwxrwxr-x 2 podelko podelko    4096 Aug 20 16:12 xlnx_auto_0_xdb
+-rw-rw-r-- 1 podelko podelko     325 Aug 20 16:03 xpartition.pxml
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp/led_on$ cd ..
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp$ ls
+led_off  led_on
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp$ cd led_off/
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp/led_off$ ls
+xpartition.pxml
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp/led_off$ vim xpartition.pxml 
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp/led_off$ diff xpartition.pxml ../led_on/xpartition.pxml 
+2,4c2,4
+< <Project Name="led_off" FileVersion="1.2" ProjectVersion="2.0">
+< 	<Partition Name="/static" State="import" ImportLocation="../led_on">
+< 		<Partition Name="/static/led_control_ins" State="implement" ImportLocation="NONE" Reconfigurable="true" ReconfigModuleName="led_off"></Partition>
+---
+> <Project Name="led_on" FileVersion="1.2" ProjectVersion="2.0">
+> 	<Partition Name="/static" State="implement" ImportLocation="NONE">
+> 		<Partition Name="/static/led_control_ins" State="implement" ImportLocation="NONE" Reconfigurable="true" ReconfigModuleName="led_on"></Partition>
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp/led_off$ ngdbuild -sd ../../syn/static/ -sd ../../syn/led_off/ -uc ../../data/static.ucf ../../syn/static/static.ngc static.ngd
+Release 14.5 - ngdbuild P.58f (lin64)
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+
+Command Line: /opt/Xilinx/14.5/ISE_DS/ISE/bin/lin64/unwrapped/ngdbuild -sd
+../../syn/static/ -sd ../../syn/led_off/ -uc ../../data/static.ucf
+../../syn/static/static.ngc static.ngd
+
+Reading NGO file
+"/home/podelko/XilinxWorkspace/Reconfig/reconf/syn/static/static.ngc" ...
+Loading design module "../../syn/led_off/led_control.ngc"...
+Gathering constraint information from source properties...
+Done.
+
+Annotating constraints to design from ucf file "../../data/static.ucf" ...
+Resolving constraint associations...
+Checking Constraint Associations...
+Done...
+Checking Partitions ...
+
+Checking expanded design ...
+
+Partition Implementation Status
+-------------------------------
+
+  Preserved Partitions:
+
+    Partition "/static"
+
+
+  Implemented Partitions:
+
+    Partition "/static/led_control_ins" (Reconfigurable Module "led_off"):
+Attribute STATE set to IMPLEMENT.
+
+-------------------------------
+
+NGDBUILD Design Results Summary:
+  Number of errors:     0
+  Number of warnings:   0
+
+Writing NGD file "static.ngd" ...
+Total REAL time to NGDBUILD completion:  5 sec
+Total CPU time to NGDBUILD completion:   5 sec
+
+Writing NGDBUILD log file "static.bld"...
+
+NGDBUILD done.
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp/led_off$ map -w -o static_map.ncd static.ngd static.pcfRelease 14.5 - Map P.58f (lin64)
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+Using target part "6vlx240tff1156-1".
+Mapping design into LUTs...
+Writing file static_map.ngm...
+Running directed packing...
+Running delay-based LUT packing...
+Updating timing models...
+INFO:Map:215 - The Interim Design Summary has been generated in the MAP Report
+   (.mrp).
+Running timing-driven placement...
+Total REAL time at the beginning of Placer: 1 mins 41 secs 
+Total CPU  time at the beginning of Placer: 1 mins 40 secs 
+
+Phase 1.1  Initial Placement Analysis
+Phase 1.1  Initial Placement Analysis (Checksum:bd28b81a) REAL time: 1 mins 51 secs 
+
+Phase 2.7  Design Feasibility Check
+Phase 2.7  Design Feasibility Check (Checksum:bd28b81a) REAL time: 2 mins 24 secs 
+
+Phase 3.31  Local Placement Optimization
+Phase 3.31  Local Placement Optimization (Checksum:bd28b81a) REAL time: 2 mins 24 secs 
+
+Phase 4.37  Local Placement Optimization
+Phase 4.37  Local Placement Optimization (Checksum:bd28b81a) REAL time: 2 mins 24 secs 
+
+Phase 5.2  Initial Placement for Architecture Specific Features
+Phase 5.2  Initial Placement for Architecture Specific Features
+(Checksum:bd28b81a) REAL time: 2 mins 25 secs 
+
+Phase 6.36  Local Placement Optimization
+Phase 6.36  Local Placement Optimization (Checksum:bd28b81a) REAL time: 2 mins 25 secs 
+
+Phase 7.30  Global Clock Region Assignment
+Phase 7.30  Global Clock Region Assignment (Checksum:bd28b81a) REAL time: 2 mins 25 secs 
+
+Phase 8.3  Local Placement Optimization
+Phase 8.3  Local Placement Optimization (Checksum:bd28b81a) REAL time: 2 mins 26 secs 
+
+Phase 9.5  Local Placement Optimization
+Phase 9.5  Local Placement Optimization (Checksum:bd28b81a) REAL time: 2 mins 26 secs 
+
+Phase 10.8  Global Placement
+Phase 10.8  Global Placement (Checksum:bd28b81a) REAL time: 2 mins 27 secs 
+
+Phase 11.5  Local Placement Optimization
+Phase 11.5  Local Placement Optimization (Checksum:bd28b81a) REAL time: 2 mins 27 secs 
+
+Phase 12.18  Placement Optimization
+Phase 12.18  Placement Optimization (Checksum:bd28b81a) REAL time: 2 mins 27 secs 
+
+Phase 13.5  Local Placement Optimization
+Phase 13.5  Local Placement Optimization (Checksum:bd28b81a) REAL time: 2 mins 27 secs 
+
+Phase 14.34  Placement Validation
+Phase 14.34  Placement Validation (Checksum:bd28b81a) REAL time: 2 mins 27 secs 
+
+Total REAL time to Placer completion: 2 mins 27 secs 
+Total CPU  time to Placer completion: 2 mins 26 secs 
+Running post-placement packing...
+Writing output files...
+
+Design Summary:
+Number of errors:      0
+Number of warnings:    0
+Slice Logic Utilization:
+  Number of Slice Registers:                     0 out of 301,440    0%
+  Number of Slice LUTs:                          1 out of 150,720    1%
+    Number used as logic:                        1 out of 150,720    1%
+      Number using O6 output only:               1
+      Number using O5 output only:               0
+      Number using O5 and O6:                    0
+      Number used as ROM:                        0
+    Number used as Memory:                       0 out of  58,400    0%
+    Number used exclusively as route-thrus:      0
+
+Slice Logic Distribution:
+  Number of occupied Slices:                     1 out of  37,680    1%
+  Number of LUT Flip Flop pairs used:            1
+    Number with an unused Flip Flop:             1 out of       1  100%
+    Number with an unused LUT:                   0 out of       1    0%
+    Number of fully used LUT-FF pairs:           0 out of       1    0%
+    Number of slice register sites lost
+      to control set restrictions:               0 out of 301,440    0%
+
+  A LUT Flip Flop pair for this architecture represents one LUT paired with
+  one Flip Flop within a slice.  A control set is a unique combination of
+  clock, reset, set, and enable signals for a registered element.
+  The Slice Logic Distribution report is not meaningful if the design is
+  over-mapped for a non-slice resource or if Placement fails.
+  OVERMAPPING of BRAM resources should be ignored if the design is
+  over-mapped for a non-BRAM resource or if placement fails.
+
+IO Utilization:
+  Number of bonded IOBs:                         1 out of     600    1%
+    Number of LOCed IOBs:                        1 out of       1  100%
+
+Specific Feature Utilization:
+  Number of RAMB36E1/FIFO36E1s:                  0 out of     416    0%
+  Number of RAMB18E1/FIFO18E1s:                  0 out of     832    0%
+  Number of BUFG/BUFGCTRLs:                      0 out of      32    0%
+  Number of ILOGICE1/ISERDESE1s:                 0 out of     720    0%
+  Number of OLOGICE1/OSERDESE1s:                 0 out of     720    0%
+  Number of BSCANs:                              0 out of       4    0%
+  Number of BUFHCEs:                             0 out of     144    0%
+  Number of BUFIODQSs:                           0 out of      72    0%
+  Number of BUFRs:                               0 out of      36    0%
+  Number of CAPTUREs:                            0 out of       1    0%
+  Number of DSP48E1s:                            0 out of     768    0%
+  Number of EFUSE_USRs:                          0 out of       1    0%
+  Number of FRAME_ECCs:                          0 out of       1    0%
+  Number of GTXE1s:                              0 out of      20    0%
+  Number of IBUFDS_GTXE1s:                       0 out of      12    0%
+  Number of ICAPs:                               0 out of       2    0%
+  Number of IDELAYCTRLs:                         0 out of      18    0%
+  Number of IODELAYE1s:                          0 out of     720    0%
+  Number of MMCM_ADVs:                           0 out of      12    0%
+  Number of PCIE_2_0s:                           0 out of       2    0%
+  Number of STARTUPs:                            1 out of       1  100%
+  Number of SYSMONs:                             0 out of       1    0%
+  Number of TEMAC_SINGLEs:                       0 out of       4    0%
+
+Average Fanout of Non-Clock Nets:                20.50
+
+Peak Memory Usage:  1231 MB
+Total REAL time to MAP completion:  2 mins 33 secs 
+Total CPU time to MAP completion:   2 mins 32 secs 
+
+Mapping completed.
+See MAP report file "static_map.mrp" for details.
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp/led_off$ par -w static_map.ncd static.ncd static.pcf Release 14.5 - par P.58f (lin64)
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+
+
+
+Constraints file: static.pcf.
+Loading device for application Rf_Device from file '6vlx240t.nph' in environment /opt/Xilinx/14.5/ISE_DS/ISE/.
+   "static" is an NCD, version 3.2, device xc6vlx240t, package ff1156, speed -1
+
+Initializing temperature to 85.000 Celsius. (default - Range: 0.000 to 85.000 Celsius)
+Initializing voltage to 0.950 Volts. (default - Range: 0.950 to 1.050 Volts)
+
+INFO:Par:282 - No user timing constraints were detected or you have set the option to ignore timing constraints ("par
+   -x"). Place and Route will run in "Performance Evaluation Mode" to automatically improve the performance of all
+   internal clocks in this design. Because there are not defined timing requirements, a timing score will not be
+   reported in the PAR report in this mode. The PAR timing summary will list the performance achieved for each clock.
+   Note: For the fastest runtime, set the effort level to "std".  For best performance, set the effort level to "high".
+
+Device speed data version:  "PRODUCTION 1.17 2013-03-26".
+
+
+
+Device Utilization Summary:
+
+Slice Logic Utilization:
+  Number of Slice Registers:                     0 out of 301,440    0%
+  Number of Slice LUTs:                          1 out of 150,720    1%
+    Number used as logic:                        1 out of 150,720    1%
+      Number using O6 output only:               1
+      Number using O5 output only:               0
+      Number using O5 and O6:                    0
+      Number used as ROM:                        0
+    Number used as Memory:                       0 out of  58,400    0%
+    Number used exclusively as route-thrus:      0
+
+Slice Logic Distribution:
+  Number of occupied Slices:                     1 out of  37,680    1%
+  Number of LUT Flip Flop pairs used:            1
+    Number with an unused Flip Flop:             1 out of       1  100%
+    Number with an unused LUT:                   0 out of       1    0%
+    Number of fully used LUT-FF pairs:           0 out of       1    0%
+    Number of slice register sites lost
+      to control set restrictions:               0 out of 301,440    0%
+
+  A LUT Flip Flop pair for this architecture represents one LUT paired with
+  one Flip Flop within a slice.  A control set is a unique combination of
+  clock, reset, set, and enable signals for a registered element.
+  The Slice Logic Distribution report is not meaningful if the design is
+  over-mapped for a non-slice resource or if Placement fails.
+  OVERMAPPING of BRAM resources should be ignored if the design is
+  over-mapped for a non-BRAM resource or if placement fails.
+
+IO Utilization:
+  Number of bonded IOBs:                         1 out of     600    1%
+    Number of LOCed IOBs:                        1 out of       1  100%
+
+Specific Feature Utilization:
+  Number of RAMB36E1/FIFO36E1s:                  0 out of     416    0%
+  Number of RAMB18E1/FIFO18E1s:                  0 out of     832    0%
+  Number of BUFG/BUFGCTRLs:                      0 out of      32    0%
+  Number of ILOGICE1/ISERDESE1s:                 0 out of     720    0%
+  Number of OLOGICE1/OSERDESE1s:                 0 out of     720    0%
+  Number of BSCANs:                              0 out of       4    0%
+  Number of BUFHCEs:                             0 out of     144    0%
+  Number of BUFIODQSs:                           0 out of      72    0%
+  Number of BUFRs:                               0 out of      36    0%
+  Number of CAPTUREs:                            0 out of       1    0%
+  Number of DSP48E1s:                            0 out of     768    0%
+  Number of EFUSE_USRs:                          0 out of       1    0%
+  Number of FRAME_ECCs:                          0 out of       1    0%
+  Number of GTXE1s:                              0 out of      20    0%
+  Number of IBUFDS_GTXE1s:                       0 out of      12    0%
+  Number of ICAPs:                               0 out of       2    0%
+  Number of IDELAYCTRLs:                         0 out of      18    0%
+  Number of IODELAYE1s:                          0 out of     720    0%
+  Number of MMCM_ADVs:                           0 out of      12    0%
+  Number of PCIE_2_0s:                           0 out of       2    0%
+  Number of STARTUPs:                            1 out of       1  100%
+  Number of SYSMONs:                             0 out of       1    0%
+  Number of TEMAC_SINGLEs:                       0 out of       4    0%
+
+
+Overall effort level (-ol):   Standard 
+Router effort level (-rl):    High 
+
+Starting initial Timing Analysis.  REAL time: 26 secs 
+Finished initial Timing Analysis.  REAL time: 26 secs 
+
+Starting Router
+
+
+Phase  1  : 0 unrouted;      REAL time: 2 mins 24 secs 
+
+Phase  2  : 0 unrouted;      REAL time: 2 mins 25 secs 
+
+Phase  3  : 0 unrouted;      REAL time: 2 mins 25 secs 
+
+Phase  4  : 0 unrouted; (Par is working to improve performance)     REAL time: 2 mins 39 secs 
+
+Updating file: static.ncd with current fully routed design.
+
+Phase  5  : 0 unrouted; (Par is working to improve performance)     REAL time: 2 mins 39 secs 
+
+Phase  6  : 0 unrouted; (Par is working to improve performance)     REAL time: 2 mins 39 secs 
+
+Phase  7  : 0 unrouted; (Par is working to improve performance)     REAL time: 2 mins 39 secs 
+
+Phase  8  : 0 unrouted; (Par is working to improve performance)     REAL time: 2 mins 39 secs 
+
+Phase  9  : 0 unrouted; (Par is working to improve performance)     REAL time: 2 mins 39 secs 
+
+Phase 10  : 0 unrouted; (Par is working to improve performance)     REAL time: 2 mins 39 secs 
+Total REAL time to Router completion: 2 mins 39 secs 
+Total CPU time to Router completion: 2 mins 39 secs 
+
+Partition Implementation Status
+-------------------------------
+
+  Preserved Partitions:
+
+    Partition "/static"
+
+
+  Implemented Partitions:
+
+    Partition "/static/led_control_ins" (Reconfigurable Module "led_off")
+
+Attribute STATE set to IMPLEMENT.
+
+-------------------------------
+
+Generating "PAR" statistics.
+INFO:Par:459 - The Clock Report is not displayed in the non timing-driven mode.
+Timing Score: 0 (Setup: 0, Hold: 0)
+
+
+
+Generating Pad Report.
+
+All signals are completely routed.
+
+Total REAL time to PAR completion: 2 mins 47 secs 
+Total CPU time to PAR completion: 2 mins 47 secs 
+
+Peak Memory Usage:  1252 MB
+
+Placer: Placement generated during map.
+Routing: Completed - No errors found.
+
+Number of error messages: 0
+Number of warning messages: 0
+Number of info messages: 2
+
+Writing design to file static.ncd
+
+
+
+PAR done!
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp/led_off$ bitgen static.ncd static.bit static.pcf -w -g ActiveReconfig:Yes -g Binary:Yes -g ConfigFallback:Disable
+Release 14.5 - Bitgen P.58f (lin64)
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+Loading device for application Rf_Device from file '6vlx240t.nph' in environment
+/opt/Xilinx/14.5/ISE_DS/ISE/.
+   "static" is an NCD, version 3.2, device xc6vlx240t, package ff1156, speed -1
+Partition "/static/led_control_ins" (Reconfigurable Module "led_off")
+Opened constraints file static.pcf.
+
+Tue Aug 20 16:36:05 2013
+
+Running DRC.
+DRC detected 0 errors and 0 warnings.
+Creating bit map...
+Saving bit stream in "static.bit".
+Saving bit stream in "static.bin".
+Bitstream generation is complete.
+Release 14.5 - Bitgen P.58f (lin64)
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+Loading device for application Rf_Device from file '6vlx240t.nph' in environment
+/opt/Xilinx/14.5/ISE_DS/ISE/.
+   "static" is an NCD, version 3.2, device xc6vlx240t, package ff1156, speed -1
+Opened constraints file static.pcf.
+
+Tue Aug 20 16:39:10 2013
+
+Running DRC.
+DRC detected 0 errors and 0 warnings.
+Creating bit stream for Partition "/static/led_control_ins" (Reconfigurable
+Module "led_off")
+Creating bit map...
+Saving bit stream in "static_led_control_ins_led_off_partial.bit".
+Saving bit stream in "static_led_control_ins_led_off_partial.bin".
+Bitstream generation is complete.
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp/led_off$ impact
+Release 14.5 - iMPACT P.58f (lin64)
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+INFO:iMPACT - Initial Project Directory:
+   '/home/podelko/XilinxWorkspace/heat_cores/'
+INFO:iMPACT - Initial Current Working Directory:
+   '/home/podelko/XilinxWorkspace/Reconfig/reconf/imp/led_off'
+INFO:iMPACT - Selected Project Directory:
+   '/home/podelko/XilinxWorkspace/heat_cores/'
+INFO:iMPACT - Selected Current Working Directory:
+   '/home/podelko/XilinxWorkspace/Reconfig/reconf/imp/led_off'
+^C
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp/led_off$ ls
+_impact.cmd  static.ncd          static_led_control_ins_led_off_partial.bgn  static_map_prev_mapped.ncd  static_usage.xml
+_impact.log  static.ngd          static_led_control_ins_led_off_partial.bin  static_map_prev_mapped.ngm  usage_statistics_webtalk.html
+_xmsgs       static.pad          static_led_control_ins_led_off_partial.bit  static_ngdbuild.xrpt        webtalk.log
+netlist.lst  static.par          static_led_control_ins_led_off_partial.drc  static_pad.csv              xlnx_auto_0_xdb
+static.bgn   static.pcf          static_map.map                              static_pad.txt              xpartition.pxml
+static.bin   static.ptwx         static_map.mrp                              static_par.xrpt
+static.bit   static.unroutes     static_map.ncd                              static_prev_built.ngd
+static.bld   static.xpi          static_map.ngm                              static_prev_routed.ncd
+static.drc   static_bitgen.xwbt  static_map.xrpt                             static_summary.xml
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp/led_off$ cd r
+bash: cd: r: No such file or directory
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp/led_off$ ^C
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp/led_off$ cd ..
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp$ ls
+led_off  led_on
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf/imp$ cd ..
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf$ ls
+data  imp  syn
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf$ ls
+data  imp  syn
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf$ ls
+data  imp  syn
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf$ vim calls.txt
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf$ cd ..
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig$ ls
+Reconfig.gise  iseconfig            led_control.ngr       led_on.vhd         static.cmd_log  static.prj  static.ucf               static_summary.html
+Reconfig.xise  led_control.cmd_log  led_control.vhi       main_summary.html  static.lso      static.srp  static.vhd               static_xst.xrpt
+_xmsgs         led_control.lso      led_control_xst.xrpt  pepExtractor.prj   static.ngc      static.stx  static.xst               webtalk_pn.xml
+ipcore_dir     led_control.ngc      led_off.vhd           reconf             static.ngr      static.syr  static_envsettings.html  xst
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig$ vim st^C
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig$ vim static.prj 
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig$ vim static.xst 
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig$ ls
+Reconfig.gise  iseconfig            led_control.ngr       led_on.vhd         static.cmd_log  static.prj  static.ucf               static_summary.html
+Reconfig.xise  led_control.cmd_log  led_control.vhi       main_summary.html  static.lso      static.srp  static.vhd               static_xst.xrpt
+_xmsgs         led_control.lso      led_control_xst.xrpt  pepExtractor.prj   static.ngc      static.stx  static.xst               webtalk_pn.xml
+ipcore_dir     led_control.ngc      led_off.vhd           reconf             static.ngr      static.syr  static_envsettings.html  xst
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig$ cd reconf/
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig/reconf$ cd  ..
+podelko@pc-techinf-27:~/XilinxWorkspace/Reconfig$ 
+

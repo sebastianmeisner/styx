@@ -1,0 +1,10 @@
+13:40:20 **** Build of project software_bsp ****
+make -k all 
+"\\psf\Home\Documents\Workspaces\XilinxWorkspace\sdk_ttk\software_bsp"
+'Finished building libraries'
+CMD.EXE wurde mit dem oben angegebenen Pfad als aktuellem Verzeichnis gestartet.
+UNC-Pfade werden nicht unterst?tzt.
+Stattdessen wird das Windows-Verzeichnis als aktuelles Verzeichnis gesetzt.
+
+13:40:20 Build Finished (took 282ms)
+

@@ -1,0 +1,311 @@
+#include <stdio.h>
+#include "platform.h"
+#include "xbasic_types.h"
+#include "xiomodule.h"
+
+volatile int second = 0;
+volatile int minute = 0;
+volatile int hour = 0;
+volatile int day = 0;
+volatile int sem = 0;
+
+volatile int err = 0;
+volatile int stop = 0;
+
+
+void print(char *str);
+//void myISR( void ) __attribute__ ((fast_interrupt));
+
+void myISR0( void) {
+    print("ISR 0\n\r");
+}
+void myISR1( void) {
+    print("ISR 1\n\r");
+}
+void myISR2( void) {
+    print("ISR 2\n\r");
+}
+void myISR3( void) {
+    print("ISR 3\n\r");
+}
+void myISR4( void) {
+    print("ISR 4\n\r");
+}
+void myISR5( void) {
+    print("ISR 5\n\r");
+}
+void myISR6( void) {
+    print("ISR 6\n\r");
+}
+
+// FIT1 Interrupt Service Routine
+void myISR7( void) {
+    sem = 1;
+    second++;
+}
+void myISR8( void) {
+    print("ISR 8\n\r");
+}
+void myISR9( void) {
+    print("ISR 9\n\r");
+}
+void myISR10( void) {
+    print("ISR 10\n\r");
+}
+void myISR11( void) {
+    print("ISR 11\n\r");
+}
+void myISR12( void) {
+    print("ISR 12\n\r");
+}
+void myISR13( void) {
+    print("ISR 13\n\r");
+}
+void myISR14( void) {
+    print("ISR 14\n\r");
+}
+void myISR15( void) {
+    print("ISR 15\n\r");
+}
+void myISR16( void) {
+    if(stop == 0) err = 1;
+}
+void myISR17( void) {
+	if(stop == 0) err = 2;
+}
+void myISR18( void) {
+	if(stop == 0) err = 3;
+}
+void myISR19( void) {
+	if(stop == 0) err = 4;
+}
+void myISR20( void) {
+	if(stop == 0) err = 5;
+}
+void myISR21( void) {
+	if(stop == 0) err = 6;
+}
+void myISR22( void) {
+	if(stop == 0) err = 7;
+}
+void myISR23( void) {
+	if(stop == 0) err = 8;
+}
+void myISR24( void) {
+	if(stop == 0) err = 9;
+}
+void myISR25( void) {
+	if(stop == 0) err = 10;
+}
+void myISR26( void) {
+	if(stop == 0) err = 11;
+}
+void myISR27( void) {
+	if(stop == 0) err = 12;
+}
+void myISR28( void) {
+	if(stop == 0) err = 13;
+}
+void myISR29( void) {
+	if(stop == 0)  err = 14;
+}
+void myISR30( void) {
+	if(stop == 0) err = 15;
+}
+void myISR31( void) {
+    //err = 16;
+}
+
+int main() {
+    init_platform();
+    print("Frequency 110.010 MHz / 107.770 MHz\n\rINITIALIZING GPIO.. ");
+
+    u32 uGpioCha = 1;
+    u32 uGpi1, uGpi2, uGpi3, uGpi4;
+    u32 uDevId = XPAR_IOMODULE_0_DEVICE_ID;
+
+    print("done.\n\r");
+    print("INITIALIZING INTERRUPT HANDLERS.. ");
+
+    //external interrupt
+    u8  uIntrId = 16;//XPAR_IOMODULE_0_SYSTEM_INTC_INTERRUPT_0_INTR;
+
+    XIOModule iomdle;
+    XIOModule_Initialize(&iomdle, uDevId);
+    microblaze_register_handler(XIOModule_DeviceInterruptHandler, uDevId );
+    XIOModule_Start(&iomdle);
+
+    print("done.\n\r");
+
+    //XIOModule_ConnectFastHandler(&iomdle, uIntrId, (XInterruptHandler) myISR);
+
+    /*
+    XIOModule_Connect(&iomdle, uIntrId, myISR, NULL);
+    XIOModule_Enable(&iomdle, uIntrId);
+    */
+
+    print("CONNECTING HANDLERS [1..32].. ");
+    XIOModule_Connect(&iomdle, 0, myISR0, NULL);
+	XIOModule_Enable(&iomdle, 0);
+
+	XIOModule_Connect(&iomdle, 1, myISR1, NULL);
+	XIOModule_Enable(&iomdle, 1);
+
+	XIOModule_Connect(&iomdle, 2, myISR2, NULL);
+	XIOModule_Enable(&iomdle, 2);
+
+	XIOModule_Connect(&iomdle, 3, myISR3, NULL);
+	XIOModule_Enable(&iomdle, 3);
+
+	XIOModule_Connect(&iomdle, 4, myISR4, NULL);
+	XIOModule_Enable(&iomdle, 4);
+
+	XIOModule_Connect(&iomdle, 5, myISR5, NULL);
+	XIOModule_Enable(&iomdle, 5);
+
+	XIOModule_Connect(&iomdle, 6, myISR6, NULL);
+	XIOModule_Enable(&iomdle, 6);
+
+	XIOModule_Connect(&iomdle, 7, myISR7, NULL);
+	XIOModule_Enable(&iomdle, 7);
+
+	XIOModule_Connect(&iomdle, 8, myISR8, NULL);
+	XIOModule_Enable(&iomdle, 8);
+
+	XIOModule_Connect(&iomdle, 9, myISR9, NULL);
+	XIOModule_Enable(&iomdle, 9);
+
+	XIOModule_Connect(&iomdle, 10, myISR10, NULL);
+	XIOModule_Enable(&iomdle, 10);
+
+	XIOModule_Connect(&iomdle, 11, myISR11, NULL);
+	XIOModule_Enable(&iomdle, 11);
+
+	XIOModule_Connect(&iomdle, 12, myISR12, NULL);
+	XIOModule_Enable(&iomdle, 12);
+
+	XIOModule_Connect(&iomdle, 13, myISR13, NULL);
+	XIOModule_Enable(&iomdle, 13);
+
+	XIOModule_Connect(&iomdle, 14, myISR14, NULL);
+	XIOModule_Enable(&iomdle, 14);
+
+	XIOModule_Connect(&iomdle, 15, myISR15, NULL);
+	XIOModule_Enable(&iomdle, 15);
+
+	XIOModule_Connect(&iomdle, 16, myISR16, NULL);
+	XIOModule_Enable(&iomdle, 16);
+
+	XIOModule_Connect(&iomdle, 17, myISR17, NULL);
+	XIOModule_Enable(&iomdle, 17);
+
+	XIOModule_Connect(&iomdle, 18, myISR18, NULL);
+	XIOModule_Enable(&iomdle, 18);
+
+	XIOModule_Connect(&iomdle, 19, myISR19, NULL);
+	XIOModule_Enable(&iomdle, 19);
+
+	XIOModule_Connect(&iomdle, 20, myISR20, NULL);
+	XIOModule_Enable(&iomdle, 20);
+
+	XIOModule_Connect(&iomdle, 21, myISR21, NULL);
+	XIOModule_Enable(&iomdle, 21);
+
+	XIOModule_Connect(&iomdle, 22, myISR22, NULL);
+	XIOModule_Enable(&iomdle, 22);
+
+	XIOModule_Connect(&iomdle, 23, myISR23, NULL);
+	XIOModule_Enable(&iomdle, 23);
+
+	XIOModule_Connect(&iomdle, 24, myISR24, NULL);
+	XIOModule_Enable(&iomdle, 24);
+
+	XIOModule_Connect(&iomdle, 25, myISR25, NULL);
+	XIOModule_Enable(&iomdle, 25);
+
+	XIOModule_Connect(&iomdle, 26, myISR26, NULL);
+	XIOModule_Enable(&iomdle, 26);
+
+	XIOModule_Connect(&iomdle, 27, myISR27, NULL);
+	XIOModule_Enable(&iomdle, 27);
+
+	XIOModule_Connect(&iomdle, 28, myISR28, NULL);
+	XIOModule_Enable(&iomdle, 28);
+
+	XIOModule_Connect(&iomdle, 29, myISR29, NULL);
+	XIOModule_Enable(&iomdle, 29);
+
+	XIOModule_Connect(&iomdle, 30, myISR30, NULL);
+	XIOModule_Enable(&iomdle, 30);
+
+	XIOModule_Connect(&iomdle, 31, myISR31, NULL);
+	XIOModule_Enable(&iomdle, 31);
+
+	print("done.\n\r");
+
+	print("ENABLING INTERRUPTS.. ");
+    microblaze_enable_interrupts();
+    print("done.\n\r\n\rSTARTING MONITORING SYSTEM..\n\r");
+    xil_printf("[RUNNING]\t%d day %d hour %d minute %d second\n\r", day, hour, minute, second);
+	xil_printf("[RUNNING]\terrCode %d - data: %x\n\r", err, uGpi0);
+
+	volatile unsigned char * memptr = (volatile unsigned char *)(0xC0000000 + (0x16<<2));
+	//unsigned int *const memptr2 = ((unsigned int *)0xC0000000 + (0x08));
+	//unsigned int *const memptr3 = ((unsigned int *)0xC0000000 + (0x09));
+
+	/*
+	xil_printf("[MEM]\t\t%x %x %x\n\r", memptr, &memptr, *memptr);
+	xil_printf("[RUNNING]\terrCode %d - data: %x\n\r", err, uGpi0);
+	xil_printf("[MEM]\t\t%x %x %x\n\r", memptr, &memptr, *memptr);
+	*/
+
+
+    while(1)
+    {
+    	//if(err == 16) {
+    		//print("interrupt sent");
+    	//}
+
+    	if(stop == 0 && err > 0) {
+    		stop = 1;
+			err = 0;
+			uGpi1 = XIOModule_DiscreteRead(&iomdle, 1);
+			uGpi2 = XIOModule_DiscreteRead(&iomdle, 2);
+			uGpi3 = XIOModule_DiscreteRead(&iomdle, 3);
+			uGpi4 = XIOModule_DiscreteRead(&iomdle, 4);
+			xil_printf("[ERROR]\t%d day %d hour %d minute %d second\n\r", day, hour, minute, second);
+			xil_printf("[ERROR]\terrCode %d - data: %x %x %x %x\n\r", err, uGpi1, uGpi2, uGpi3, uGpi4);
+		}
+
+    	if(sem == 1) {
+        	sem = 0;
+        	if(second >= 60) {
+        		second = 0;
+        		minute++;
+        	}
+        	if(minute >= 60) {
+        		minute = 0;
+        		hour++;
+        	}
+        	if(hour >= 24) {
+        		hour = 0;
+        		day++;
+        	}
+        	if(minute % 5 == 0 && second == 0) {
+				err = 0;
+				uGpi1 = XIOModule_DiscreteRead(&iomdle, 1);
+				uGpi2 = XIOModule_DiscreteRead(&iomdle, 2);
+				uGpi3 = XIOModule_DiscreteRead(&iomdle, 3);
+				uGpi4 = XIOModule_DiscreteRead(&iomdle, 4);
+				//uGpi0 = XIOModule_DiscreteWrite(&iomdle, uGpioCha, 1);
+				xil_printf("[RUNNING]\t%d day %d hour %d minute %d second\n\r", day, hour, minute, second);
+				xil_printf("[RUNNING]\terrCode %d - data: %x %x %x %x\n\r", err, uGpi1, uGpi2, uGpi3, uGpi4);
+			}
+        }
+
+    }
+
+    cleanup_platform();
+
+    return 0;
+}

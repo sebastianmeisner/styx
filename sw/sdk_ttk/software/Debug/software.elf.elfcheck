@@ -1,0 +1,8 @@
+elfcheck
+Xilinx EDK 14.5 Build EDK_P.58f
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+
+Command Line: elfcheck -hw ../../ttk/system.xml -pe dut_monitor software.elf 
+
+ELF file	: software.elf
+elfcheck passed.

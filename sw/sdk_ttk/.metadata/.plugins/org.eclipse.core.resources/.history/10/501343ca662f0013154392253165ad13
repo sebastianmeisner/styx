@@ -1,0 +1,454 @@
+#include <stdio.h>
+#include "platform.h"
+#include "xbasic_types.h"
+#include "xiomodule.h"
+
+volatile int debug = 0;
+volatile double fin = 100.00;
+volatile int series_index = 212;
+volatile int err_observ = 1;
+volatile int ms = 0;
+volatile int m_ms = 0;
+volatile int second = 0;
+
+volatile int count_errors = 0;
+volatile int count_errors_all = 0;
+
+// uart/gpio variables
+u32 uGpi1, uGpi2, uGpi3, uGpi4, uGpo1;
+u32 uDevId = XPAR_IOMODULE_0_DEVICE_ID;
+
+enum states {
+	wait = 0,
+	run = 1,
+	error = 2,
+	init = 3,
+	setFrequency = 4,
+	end = 5,
+	printStatus = 6,
+	countSecond = 7,
+	measureFrequency = 8,
+	deactivateCounter = 9,
+	activateObservation = 10
+};
+enum states state = init;
+
+
+volatile int m_values[] = {62,59,56,53,50,47,44,41,38,35,64,61,58,55,52,49,23,43,63,60,57,37,54,17,48,31,45,59,14,53,39,64,25,61,36,47,58,11,63,52,41,30,49,19,46,27,62,35,43,51,59,8,61,53,45,37,29,50,21,55,34,47,60,13,57,44,31,49,18,59,41,64,23,51,28,61,33,38,43,48,53,58,63,5,62,57,52,47,42,37,32,59,27,49,22,61,39,56,17,63,46,29,41,53,12,55,43,31,50,19,64,45,26,59,33,40,47,54,61,7,58,51,44,37,30,53,23,62,39,55,16,57,41,25,59,34,43,52,61,9,56,47,38,29,49,20,51,31,42,53,64,11,57,46,35,59,24,61,37,50,63,13,54,41,28,43,58,15,62,47,32,49,17,53,36,55,19,59,40,61,21,44,23,48,25,52,27,56,29,60,31,64,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,60,63,61,59,57,55,53,51,49,47,45,43,41,39,37,35,33,64,31,60,29,56,27,52,25,48,23,44,21,61,40,59,19,55,36,53,17,49,32,47,62,15,58,43,28,41,54,13,63,50,37,61,24,59,35,46,57,11,64,53,42,31,51,20,49,29,38,47,56,9,61,52,43,34,59,25,41,57,16,55,39,62,23,53,30,37,44,51,58,7,61,54,47,40,33,59,26,45,64,19,50,31,43,55,12,53,41,29,46,63,17,56,39,61,22,49,27,59,32,37,42,47,52,57,62,5,63,58,53,48,43,38,33,61,28,51,23,64,41,59,18,49,31,44,57,13,60,47,34,55,21,50,29,37,45,53,61,8,59,51,43,35,62,27,46,19,49,30,41,52,63,11,58,47,36,61,25,64,39,53,14,59,45,31,48,17,54,37,57,20,63,43,23,49,26,55};//{62,59,56,53,50,47,44,41,38,35,64,61,58,55,52,49,23,43,63,60,57,37,54,17,48,31,45,59,14,53,39,64,25,61,36,47,58,11,63,52,41,30,49,19,46,27,62,35,43,51,59,8,61,53,45,37,29,50,21,55,34,47,60,13,57,44,31,49,18,59,41,64,23,51,28,61,33,38,43,48,53,58,63,5,62,57,52,47,42,37,32,59,27,49,22,61,39,56,17,63,46,29,41,53,12,55,43,31,50,19,64,45,26,59,33,40,47,54,61,7,58,51,44,37,30,53,23,62,39,55,16,57,41,25,59,34,43,52,61,9,56,47,38,29,49,20,51,31,42,53,64,11,57,46,35,59,24,61,37,50,63,13,54,41,28,43,58,15,62,47,32,49,17,53,36,55,19,59,40,61,21,44,23,48,25,52,27,56,29,60,31,64,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,2,63,61,59,57,55,53,51,49,47,45,43,41,39,37,35,33,64,31,60,29,56,27,52,25,48,23,44,21,61,40,59,19,55,36,53,17,49,32,47,62,15,58,43,28,41,54,13,63,50,37,61,24,59,35,46,57,11,64,53,42,31,51,20,49,29,38,47,56,9,61,52,43,34,59,25,41,57,16,55,39,62,23,53,30,37,44,51,58,7,61,54,47,40,33,59,26,45,64,19,50,31,43,55,12,53,41,29,46,63,17,56,39,61,22,49,27,59,32,37,42,47,52,57,62,5,63,58,53,48,43,38,33,61,28,51,23,64,41,59,18,49,31,44,57,13,60,47,34,55,21,50,29,37,45,53,61,8,59,51,43,35,62,27,46,19,49,30,41,52,63,11,58,47,36,61,25,64,39,53,14,59,45,31,48,17,54,37,57,20,63,43,23,49,26,55};//{38, 61, 51, 64, 41, 54, 31, 57, 47, 21, 50, 58, 37, 53};
+volatile int d_values[] = {41,39,37,35,33,31,29,27,25,23,42,40,38,36,34,32,15,28,41,39,37,24,35,11,31,4,29,19,3,17,5,41,4,13,23,5,37,1,8,11,13,19,31,2,29,17,13,11,9,8,37,1,19,11,4,23,3,31,13,17,3,29,37,2,5,9,19,5,11,6,5,13,2,31,17,37,4,23,13,29,8,5,19,1,37,17,31,4,5,11,19,5,4,29,13,6,23,11,2,37,9,17,4,31,7,8,5,3,29,11,37,13,3,17,19,23,9,31,7,1,11,29,5,7,17,5,13,7,11,31,3,8,23,7,11,19,4,29,17,1,31,13,7,4,9,11,7,17,23,29,7,1,31,5,19,8,13,11,4,9,17,7,29,11,3,23,31,2,11,5,17,13,3,7,19,29,2,31,7,8,11,23,2,5,13,9,7,29,3,31,4,11,17,3,19,4,7,11,23,24,25,26,27,28,29,30,31,32,30,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,31,15,29,7,9,13,5,3,23,11,7,2,29,19,7,3,13,17,5,2,23,3,11,29,7,9,4,13,19,5,2,29,23,17,7,11,9,4,7,13,1,29,6,19,7,23,3,11,13,17,7,5,1,9,23,19,3,13,11,6,5,7,6,17,9,2,23,13,4,19,11,5,1,13,23,4,17,7,5,11,19,9,2,7,13,6,23,5,11,17,3,19,13,7,23,4,25,3,5,11,6,13,5,17,19,7,23,25,1,25,23,7,19,17,5,13,6,11,5,3,25,4,23,7,19,3,17,11,5,23,6,13,7,2,19,11,7,17,5,23,1,11,19,4,13,23,5,17,7,6,11,5,19,23,1,7,17,13,11,3,23,7,19,5,7,4,11,17,2,19,13,5,7,11,5,2,17,3,19};//{41,39,37,35,33,31,29,27,25,23,42,40,38,36,34,32,15,28,41,39,37,24,35,11,31,4,29,19,3,17,5,41,4,13,23,5,37,1,8,11,13,19,31,2,29,17,13,11,9,8,37,1,19,11,4,23,3,31,13,17,3,29,37,2,5,9,19,5,11,6,5,13,2,31,17,37,4,23,13,29,8,5,19,1,37,17,31,4,5,11,19,5,4,29,13,6,23,11,2,37,9,17,4,31,7,8,5,3,29,11,37,13,3,17,19,23,9,31,7,1,11,29,5,7,17,5,13,7,11,31,3,8,23,7,11,19,4,29,17,1,31,13,7,4,9,11,7,17,23,29,7,1,31,5,19,8,13,11,4,9,17,7,29,11,3,23,31,2,11,5,17,13,3,7,19,29,2,31,7,8,11,23,2,5,13,9,7,29,3,31,4,11,17,3,19,4,7,11,23,4,5,13,9,7,29,5,31,8,1,31,6,29,7,9,13,5,6,23,11,7,4,19,6,17,4,31,3,29,7,9,13,5,3,23,11,7,2,29,19,7,3,13,17,5,2,23,3,11,29,7,9,4,13,19,5,2,29,23,17,7,11,9,4,7,13,1,29,6,19,7,23,3,11,13,17,7,5,1,9,23,19,3,13,11,6,5,7,6,17,9,2,23,13,4,19,11,5,1,13,23,4,17,7,5,11,19,9,2,7,13,6,23,5,11,17,3,19,13,7,23,4,25,3,5,11,6,13,5,17,19,7,23,25,1,25,23,7,19,17,5,13,6,11,5,3,25,4,23,7,19,3,17,11,5,23,6,13,7,2,19,11,7,17,5,23,1,11,19,4,13,23,5,17,7,6,11,5,19,23,1,7,17,13,11,3,23,7,19,5,7,4,11,17,2,19,13,5,7,11,5,2,17,3,19};//{5, 6, 4, 5, 8, 7, 3, 11, 6, 4, 19, 11, 7, 5};
+volatile int o_values[] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5,1,2,3,2,5,1,4,3,1,6,1,7,5,3,2,1,1,6,1,1,3,2,3,4,1,5,2,3,7,1,6,1,1,2,7,1,1,4,7,3,1,6,1,6,5,3,7,1,1,1,5,1,2,1,4,7,2,3,1,2,1,7,5,2,1,7,4,1,1,6,1,3,5,1,3,1,6,1,1,4,5,6,1,1,1,2,5,2,1,1,3,1,5,4,3,1,5,3,1,6,1,5,2,1,3,4,1,2,3,1,6,1,2,5,1,2,3,4,3,1,4,1,1,1,5,6,1,5,1,4,1,3,5,3,2,1,1,2,5,1,1,4,3,5,1,2,3,4,1,1,5,1,3,4,1,1,6,5,1,3,2,1,5,1,4,3,1,6,1,5,3,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,3,1,5,4,1,1,3,5,1,1,4,3,2,1,5,4,1,5,2,1,1,3,5,1,1,5,3,1,1,1,4,1,3,4,3,2,5,1,4,1,2,1,3,2,1,1,3,5,4,3,1,1,5,2,1,3,5,1,4,1,3,5,1,1,4,1,2,5,3,2,1,5,1,2,5,1,1,3,4,3,1,3,1,1,2,1,4,1,2,1,1,4,1,3,4,1,4,1,3,1,1,3,1,1,2,1,1,3,1,1,3,1,4,1,4,3,1,4,1,1,1,4,1,2,1,1,3,1,3,4,1,1,2,1,4,1,3,2,1,4,1,1,2,1,1,3,1,3,1,1,4,3,1,1,2,3,1,2,1,1,3,4,1,1,3,1,1,4,1,2,3,4,1,3,1};//{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5,1,2,3,2,5,1,4,3,1,6,1,7,5,3,2,1,1,6,1,1,3,2,3,4,1,5,2,3,7,1,6,1,1,2,7,1,1,4,7,3,1,6,1,6,5,3,7,1,1,1,5,1,2,1,4,7,2,3,1,2,1,7,5,2,1,7,4,1,1,6,1,3,5,1,3,1,6,1,1,4,5,6,1,1,1,2,5,2,1,1,3,1,5,4,3,1,5,3,1,6,1,5,2,1,3,4,1,2,3,1,6,1,2,5,1,2,3,4,3,1,4,1,1,1,5,6,1,5,1,4,1,3,5,3,2,1,1,2,5,1,1,4,3,5,1,2,3,4,1,1,5,1,3,4,1,1,6,5,1,3,2,1,5,1,4,3,1,6,1,5,3,2,1,6,5,2,3,4,1,6,1,4,1,1,5,1,4,3,2,5,4,1,2,3,5,1,3,1,4,1,5,1,2,3,1,5,4,1,1,3,5,1,1,4,3,2,1,5,4,1,5,2,1,1,3,5,1,1,5,3,1,1,1,4,1,3,4,3,2,5,1,4,1,2,1,3,2,1,1,3,5,4,3,1,1,5,2,1,3,5,1,4,1,3,5,1,1,4,1,2,5,3,2,1,5,1,2,5,1,1,3,4,3,1,3,1,1,2,1,4,1,2,1,1,4,1,3,4,1,4,1,3,1,1,3,1,1,2,1,1,3,1,1,3,1,4,1,4,3,1,4,1,1,1,4,1,2,1,1,3,1,3,4,1,1,2,1,4,1,3,2,1,4,1,1,2,1,1,3,1,3,1,1,4,3,1,1,2,3,1,2,1,1,3,4,1,1,3,1,1,4,1,2,3,4,1,3,1};//{3, 4, 5, 5, 2, 3, 4, 2, 3, 2, 1, 2, 2, 4};
+
+// PHASEMUX [15:13] RESERVED [12] HIGH [11:6] LOW [5:0]
+volatile unsigned short * pMMCMo1 = (volatile unsigned short *)(0xC0000000 + (0x08<<2));
+// RESERVED [15:10] MX [9:8] EDGE [7] NO COUNT [6] DELAY TIME [5:0]
+volatile unsigned short * pMMCMo2 = (volatile unsigned short *)(0xC0000000 + (0x09<<2));
+// PHASEMUX [15:13] RESERVED [12] HIGH [11:6] LOW [5:0]
+volatile unsigned short * pMMCMm1 = (volatile unsigned short *)(0xC0000000 + (0x14<<2));
+// RESERVED [15:10] MX [9:8] EDGE [7] NO COUNT [6] DELAY TIME [5:0]
+volatile unsigned short * pMMCMm2 = (volatile unsigned short *)(0xC0000000 + (0x15<<2));
+// RESERVED [15:14] EDGE [13] NO COUNT [12] HIGH [11:6] LOW [5:0]
+volatile unsigned short * pMMCMd1 = (volatile unsigned short *)(0xC0000000 + (0x16<<2));
+//volatile unsigned short * pMMCMd2 = (volatile unsigned short *)(0xC0000000 + (0x17<<2));
+
+XIOModule iomdle;
+
+void countError();
+void resetTestcircuit();
+void resetCounter();
+void cleanUp();
+void initSystem();
+void initFrequency();
+void increaseFrequency();
+int setMultiplier(int m);
+int setDividerOutput1(int o);
+int setDivider(int d);
+double calcFreq(int m, int d, int o);
+void print(char *str);
+
+
+// FIT1 Interrupt Service Routine
+void oneSecondInterruptRoutine( void* ip) {
+	second++;
+	if(second % 5 == 0) {
+		state = setFrequency;
+	} else {
+		state = printStatus;
+	}
+	xil_printf("%d; %d; %d; %d; %d; %d; %d; %d; %d;\n\r", second, count_errors, count_errors_all, series_index, m_values[series_index], d_values[series_index], o_values[series_index], 100*m_values[series_index]/(d_values[series_index]*o_values[series_index]), 10000000000/m_ms);
+	count_errors = 0;
+}
+
+// FIT2 Interrupt Service Routine
+void oneMillisecondInterruptRoutine( void* ip ) {
+	ms++;
+}
+
+void testInterruptRoutine1( void* ip ) {
+	//print("MMCM RESET\n\r");
+}
+void testInterruptRoutine2( void* ip ) {
+	//print("TC RESET\n\r");
+}
+
+
+// OWN IMPLEMENTATION COUNTER
+void errorObservationInterruptRoutine( void* ip) {
+	XIOModule_Disable(&iomdle, 30);
+	count_errors++;
+	count_errors_all++;
+	XIOModule_DiscreteWrite(&iomdle, 1, 2);
+	XIOModule_DiscreteWrite(&iomdle, 1, 0);
+	//state = error;
+	XIOModule_Enable(&iomdle, 30);
+}
+
+void measureFrequencyInterruptRoutine( void* ip) {
+	m_ms = ms;
+	state = measureFrequency;
+}
+
+int main() {
+
+	u32 data = XIOModule_Initialize(&iomdle, XPAR_IOMODULE_0_DEVICE_ID);
+	data = XIOModule_Start(&iomdle);
+	u8 rx_buf[10];
+
+    while(1) {
+
+    	switch(state) {
+    		case init:
+    			initSystem();
+    			initFrequency();
+    			resetCounter();
+    			state = run;
+    			break;
+    		case run:
+				/**
+    			while (( data = XIOModule_Recv(&iomdle, rx_buf, 1)) == 0 );
+				switch(rx_buf[0]) {
+					case 110:
+						state = setFrequency;
+						break;
+					case 112:
+						if(err_observ == 1) {
+							err_observ = 0;
+							print("Error Observation off\n\r");
+						} else {
+							err_observ = 1;
+							print("Error Observation on\n\r");
+						}
+						break;
+					case 114:
+						XIOModule_DiscreteWrite(&iomdle, 1, 3);
+						print("1->Design resetted\n\r");
+						break;
+					case 116:
+						XIOModule_DiscreteWrite(&iomdle, 1, 0);
+						print("0->Design resetted\n\r");
+						break;
+					default:
+
+						break;
+				}
+				**/
+    			break;
+    		case error:
+    			state = run;
+    			break;
+    		case printStatus:
+    			state = run;
+    			break;
+    		case measureFrequency:
+    			resetCounter();
+    			ms = 0;
+    			state = run;
+    			break;
+    		case setFrequency:
+    			XIOModule_Disable(&iomdle, 30);
+    			increaseFrequency();
+    			XIOModule_Enable(&iomdle, 30);
+    			state = run;
+    			break;
+    		case end:
+    			cleanUp();
+    			return 0;
+    			break;
+    		default:
+    			state = run;
+    			break;
+		}
+
+    }
+
+    return 0;
+}
+
+// User Functions
+void countError() {
+	count_errors++;
+	count_errors_all++;
+}
+
+void resetTestcircuit() {
+	XIOModule_Disable(&iomdle, 30);
+	XIOModule_DiscreteWrite(&iomdle, 1, 2);
+	XIOModule_DiscreteWrite(&iomdle, 1, 0);
+	XIOModule_Enable(&iomdle, 30);
+}
+
+void resetCounter() {
+	XIOModule_DiscreteWrite(&iomdle, 1, 4);
+	XIOModule_DiscreteWrite(&iomdle, 1, 0);
+}
+
+void cleanUp() {
+	 cleanup_platform();
+}
+
+void initSystem() {
+	init_platform();
+	print("Initialization\n\r");
+
+	XIOModule_Initialize(&iomdle, uDevId);
+	XIOModule_Start(&iomdle);
+
+	// Initialize GP INPUTs
+	uGpi1 = XIOModule_DiscreteRead(&iomdle, 1);
+	uGpi2 = XIOModule_DiscreteRead(&iomdle, 2);
+	uGpi3 = XIOModule_DiscreteRead(&iomdle, 3);
+	uGpi4 = XIOModule_DiscreteRead(&iomdle, 4);
+
+	XIOModule_DiscreteWrite(&iomdle, 1, 0);
+
+	// Connect ISRs
+	XIOModule_Connect(&iomdle, 7, oneSecondInterruptRoutine, NULL);
+	XIOModule_Enable(&iomdle, 7);
+
+	XIOModule_Connect(&iomdle, 8, oneMillisecondInterruptRoutine, NULL);
+	XIOModule_Enable(&iomdle, 8);
+
+//	XIOModule_Connect(&iomdle, 28, testInterruptRoutine1, NULL);
+//	XIOModule_Enable(&iomdle, 28);
+//
+//	XIOModule_Connect(&iomdle, 29, testInterruptRoutine2, NULL);
+//	XIOModule_Enable(&iomdle, 29);
+//
+	XIOModule_Connect(&iomdle, 30, errorObservationInterruptRoutine, NULL);
+	//XIOModule_Enable(&iomdle, 30);
+
+	XIOModule_Connect(&iomdle, 31, measureFrequencyInterruptRoutine, NULL);
+	XIOModule_Enable(&iomdle, 31);
+
+	microblaze_register_handler(XIOModule_DeviceInterruptHandler, uDevId );
+	microblaze_enable_interrupts();
+}
+
+void initFrequency() {
+	// Set initial MMCM parameters
+	XIOModule_DiscreteWrite(&iomdle, 1, 2);
+
+	setMultiplier(m_values[series_index]);
+	setDivider(d_values[series_index]);
+	setDividerOutput1(o_values[series_index]);
+
+	XIOModule_DiscreteWrite(&iomdle, 1, 0);
+}
+
+void increaseFrequency() {
+	series_index += 1;
+	if(series_index >= sizeof(m_values) / 4) {
+		series_index = 0;
+	}
+
+	XIOModule_DiscreteWrite(&iomdle, 1, 2);
+
+	setMultiplier(m_values[series_index]);
+	setDivider(d_values[series_index]);
+	setDividerOutput1(o_values[series_index]);
+
+	XIOModule_DiscreteWrite(&iomdle, 1, 0);
+
+	second = 0;
+}
+
+void setValue(int high, int low, short *mptr) {
+	*mptr = (1 << 12) + (high << 6) + low;
+}
+
+int setDivider(int m) {
+	// RESERVED [15:14] EDGE [13] NO COUNT [12] HIGH [11:6] LOW [5:0]
+
+	microblaze_disable_interrupts();
+
+	unsigned short tempM1 = *pMMCMd1;
+	unsigned short MASK;
+
+	int ret = 0;
+
+	if(m == 1) {
+		//*pMMCMm2 = (1 << 6);
+		MASK = 0xEFFF;
+		tempM1 &= MASK;
+		tempM1 |= (1<<12);
+		*pMMCMd1 = tempM1;
+		ret = 1;
+	}
+	if(m % 2 == 0) {
+
+		MASK = 0xC000;
+		tempM1 &= MASK;
+		tempM1 |= ((m/2) <<6) + (m/2) + (0<<13) + (0<<12);
+		*pMMCMd1 = tempM1;
+		ret = 2;
+	}
+	if(m % 2 == 1 && m != 1) {
+		MASK = 0xC000;
+		tempM1 &= MASK;
+		tempM1 |= ((m/2) <<6) + (m/2)+1 + (1<<13) + (0<<12);
+		*pMMCMd1 = tempM1;
+		ret = 3;
+	}
+	mbar(1);
+	mbar(2);
+
+	xil_printf("[d, (r1-%d)], ", tempM1);
+
+	microblaze_enable_interrupts();
+	return ret;
+}
+
+int setMultiplier(int m) {
+	microblaze_disable_interrupts();
+
+	// PHASEMUX [15:13] RESERVED [12] HIGH [11:6] LOW [5:0]
+	// RESERVED [15:10] MX [9:8] EDGE [7] NO COUNT [6] DELAY TIME [5:0]
+
+	unsigned short tempM1 = *pMMCMm1;
+	unsigned short tempM2 = *pMMCMm2;
+	unsigned short MASK;
+
+	int ret = 0;
+
+	if(m == 1) {
+		MASK = 0xF000;
+		tempM1 &= MASK;
+		*pMMCMm1 = tempM1;
+
+		mbar(1);
+		mbar(2);
+
+		MASK = 0xFF3F;
+		tempM2 &= MASK;
+		tempM2 |= (0<<7) + (1<<6);
+		*pMMCMm2 = tempM2;
+		ret = 1;
+	}
+	if(m % 2 == 0) {
+		MASK = 0xF000;
+		tempM1 &= MASK;
+		tempM1 |= ((m/2) <<6) + (m/2);
+		*pMMCMm1 = tempM1;
+
+		mbar(1);
+		mbar(2);
+
+		MASK = 0xFF3F;
+		tempM2 &= MASK;
+		tempM2 |= (0<<6) + (0<<7);
+		*pMMCMm2 = tempM2;
+		ret = 2;
+	}
+	if(m % 2 == 1 && m != 1) {
+		MASK = 0xF000;
+		tempM1 &= MASK;
+		tempM1 |= ((m/2) <<6) + (m/2)+1;
+		*pMMCMm1 = tempM1;
+
+		mbar(1);
+		mbar(2);
+
+		MASK = 0xFF3F;
+		tempM2 &= MASK;
+		tempM2 |= (0<<6) + (1<<7);
+		*pMMCMm2 = tempM2;
+		ret = 3;
+	}
+	mbar(1);
+	mbar(2);
+
+	xil_printf("[m, (r1-%d r2-%d)], ", tempM1, tempM2);
+
+	microblaze_enable_interrupts();
+	return ret;
+}
+
+int setDividerOutput1(int m) {
+	microblaze_disable_interrupts();
+
+	// PHASEMUX [15:13] RESERVED [12] HIGH [11:6] LOW [5:0]
+	// RESERVED [15:10] MX [9:8] EDGE [7] NO COUNT [6] DELAY TIME [5:0]
+
+	unsigned short tempM1 = *pMMCMo1;
+	unsigned short tempM2 = *pMMCMo2;
+	unsigned short MASK;
+
+	int ret = 0;
+
+	if(m == 1) {
+		MASK = 0xF000;
+		tempM1 &= MASK;
+		*pMMCMo1 = tempM1;
+
+		mbar(1);
+		mbar(2);
+
+		MASK = 0xFF3F;
+		tempM2 &= MASK;
+		tempM2 |= (0<<7) + (1<<6);
+		*pMMCMo2 = tempM2;
+		ret = 1;
+	}
+	if(m % 2 == 0) {
+
+		MASK = 0xF000;
+		tempM1 &= MASK;
+		tempM1 |= ((m/2) <<6) + (m/2);
+		*pMMCMo1 = tempM1;
+
+		mbar(1);
+		mbar(2);
+
+		MASK = 0xFF3F;
+		tempM2 &= MASK;
+		tempM2 |= (0<<6) + (0<<7);
+		*pMMCMo2 = tempM2;
+		ret = 2;
+	}
+	if(m % 2 == 1 && m != 1) {
+		MASK = 0xF000;
+		tempM1 &= MASK;
+		tempM1 |= ((m/2) <<6) + (m/2)+1;
+		*pMMCMo1 = tempM1;
+
+		mbar(1);
+		mbar(2);
+
+		MASK = 0xFF3F;
+		tempM2 &= MASK;
+		tempM2 |= (0<<6) + (1<<7);
+		*pMMCMo2 = tempM2;
+		ret = 3;
+	}
+	mbar(1);
+	mbar(2);
+
+	xil_printf("[o, (r1-%d r2-%d)]\n\r", tempM1, tempM2);
+
+	microblaze_enable_interrupts();
+	return ret;
+}
+
+double calcFreq(int m, int d, int o) {
+	double nenner = d*o;
+	return (double)(100 * m) / ((double)nenner);
+}

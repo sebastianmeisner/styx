@@ -1,0 +1,368 @@
+#include <stdio.h>
+#include "platform.h"
+#include "xbasic_types.h"
+#include "xiomodule.h"
+
+volatile int debug = 0;
+
+volatile int ms = 0;
+volatile int ms_temp1 = 0, ms_temp2 = 0;
+volatile int second = 0;
+volatile int count = 0;
+volatile int minute = 0;
+volatile int hour = 0;
+volatile int day = 0;
+volatile int sem = 0;
+volatile int stop = 0;
+volatile int lastRead = 1;
+volatile int reset_flag = 0;
+volatile short enable_observ = 0;
+volatile int count_errors = 0;
+
+
+volatile int m_values[] = {38, 61, 51, 64, 41, 54, 31, 57, 47, 21, 58, 37, 53};
+volatile int d_values[] = {5, 6, 4, 5, 8, 7, 3, 11, 6, 4, 11, 7, 5};
+volatile int o_values[] = {3, 4, 5, 5, 2, 3, 4, 2, 3, 2, 2, 2, 4};
+
+volatile int series_index = 8;
+
+// PHASEMUX [15:13] RESERVED [12] HIGH [11:6] LOW [5:0]
+volatile unsigned short * pMMCMo1 = (volatile unsigned short *)(0xC0000000 + (0x08<<2));
+// RESERVED [15:10] MX [9:8] EDGE [7] NO COUNT [6] DELAY TIME [5:0]
+volatile unsigned short * pMMCMo2 = (volatile unsigned short *)(0xC0000000 + (0x09<<2));
+// PHASEMUX [15:13] RESERVED [12] HIGH [11:6] LOW [5:0]
+volatile unsigned short * pMMCMm1 = (volatile unsigned short *)(0xC0000000 + (0x14<<2));
+// RESERVED [15:10] MX [9:8] EDGE [7] NO COUNT [6] DELAY TIME [5:0]
+volatile unsigned short * pMMCMm2 = (volatile unsigned short *)(0xC0000000 + (0x15<<2));
+// RESERVED [15:14] EDGE [13] NO COUNT [12] HIGH [11:6] LOW [5:0]
+volatile unsigned short * pMMCMd1 = (volatile unsigned short *)(0xC0000000 + (0x16<<2));
+//volatile unsigned short * pMMCMd2 = (volatile unsigned short *)(0xC0000000 + (0x17<<2));
+
+XIOModule iomdle;
+
+void increaseFrequency();
+int setMultiplier(int m);
+int setDividerOutput1(int o);
+int setDivider(int d);
+double calcFreq(int m, int d, int o);
+void print(char *str);
+
+
+// FIT1 Interrupt Service Routine
+void myISR7( void* ip) {
+	second++;
+	sem = 1;
+	xil_printf("%d; %d\n\r", second, count_errors);
+	count_errors = 0;
+}
+
+// FIT2 Interrupt Service Routine
+void myISR8( void ) {
+	ms++;
+}
+
+// OWN IMPLEMENTATION COUNTER
+void myISR30( void* ip) {
+	if(enable_observ == 1) {
+		//stop = 1;
+		count_errors++;
+
+		XIOModule_DiscreteWrite(&iomdle, 1, 2);
+		XIOModule_DiscreteWrite(&iomdle, 1, 0);
+	}
+}
+
+void myISR31( void* ip) {
+	ms_temp1 = ms;
+	//count++;
+	//
+}
+
+int main() {
+
+    init_platform();
+    print("BASIC DESIGN #1\n\r");
+	xil_printf("%d; %d; index: %d - m: %d d: %d o: %d \t %d ms @ %d kHz (%d MHz);\n\r", count, count_errors, series_index, m_values[series_index], d_values[series_index], o_values[series_index], ms_temp1, (100000000 / ms_temp1), (100 * m_values[series_index] / (d_values[series_index]*o_values[series_index])));
+
+
+    u32 uGpi1, uGpi2, uGpi3, uGpi4, uGpo1;
+    u32 uDevId = XPAR_IOMODULE_0_DEVICE_ID;
+
+    XIOModule_Initialize(&iomdle, uDevId);
+    XIOModule_Start(&iomdle);
+
+    // Initialize GP INPUTs
+    uGpi1 = XIOModule_DiscreteRead(&iomdle, 1);
+	uGpi2 = XIOModule_DiscreteRead(&iomdle, 2);
+	uGpi3 = XIOModule_DiscreteRead(&iomdle, 3);
+	uGpi4 = XIOModule_DiscreteRead(&iomdle, 4);
+
+	XIOModule_DiscreteWrite(&iomdle, 1, 2);
+
+	// Connect ISRs
+	XIOModule_Connect(&iomdle, 7, myISR7, NULL);
+	XIOModule_Enable(&iomdle, 7);
+
+	XIOModule_Connect(&iomdle, 8, myISR8, NULL);
+	XIOModule_Enable(&iomdle, 8);
+
+	XIOModule_Connect(&iomdle, 30, myISR30, NULL);
+	XIOModule_Enable(&iomdle, 30);
+
+	//XIOModule_Connect(&iomdle, 31, myISR31, NULL);
+	//XIOModule_Enable(&iomdle, 31);
+
+    microblaze_register_handler(XIOModule_DeviceInterruptHandler, uDevId );
+    microblaze_enable_interrupts();
+
+    // Set initial MMCM parameters
+    XIOModule_DiscreteWrite(&iomdle, 1, 3);
+
+    setMultiplier(m_values[series_index]);
+    setDivider(d_values[series_index]);
+    setDividerOutput1(o_values[series_index]);
+
+    XIOModule_DiscreteWrite(&iomdle, 1, 0);
+
+
+
+    enable_observ = 1;
+
+    while(1) {
+    	//microblaze_disable_interrupts();
+    	if(sem == 1 && stop == 0) {
+    		XIOModule_DiscreteWrite(&iomdle, 1, 4);
+    		XIOModule_DiscreteWrite(&iomdle, 1, 0);
+
+			ms = 0;
+    		sem = 0;
+    		count++;
+
+    		if(count % 30 == 0) {
+    			xil_printf("%d; %d; index: %d - m: %d d: %d o: %d \t %d ms @ %d kHz (%d MHz);\n\r", count, count_errors, series_index, m_values[series_index], d_values[series_index], o_values[series_index], ms_temp1, (100000000 / ms_temp1), (100 * m_values[series_index] / (d_values[series_index]*o_values[series_index])));
+    			increaseFrequency();
+    		}
+
+
+    		count_errors = 0;
+    	}
+
+    	/**if(stop == 1) {
+    		enable_observ = 0;
+    		//xil_printf("ERROR (%d) in %d ms\n\r", count_errors, ms_temp1);
+    		count_errors++;
+
+
+    		XIOModule_DiscreteWrite(&iomdle, 1, 2);
+			XIOModule_DiscreteWrite(&iomdle, 1, 0);
+
+			enable_observ = 1;
+			stop = 0;
+    		lastRead = 0;
+    	}**/
+		//microblaze_enable_interrupts();
+    }
+
+
+    cleanup_platform();
+
+    return 0;
+}
+
+void increaseFrequency() {
+	enable_observ = 0;
+
+	series_index++;
+	if(series_index >= sizeof(m_values) / 4) {
+		series_index = 0;
+	}
+
+	XIOModule_DiscreteWrite(&iomdle, 1, 1);
+
+	setMultiplier(m_values[series_index]);
+	setDivider(d_values[series_index]);
+	setDividerOutput1(o_values[series_index]);
+
+	XIOModule_DiscreteWrite(&iomdle, 1, 0);
+
+	second = 0;
+	enable_observ = 1;
+}
+
+void setValue(int high, int low, short *mptr) {
+	*mptr = (1 << 12) + (high << 6) + low;
+}
+
+int setDivider(int m) {
+	// RESERVED [15:14] EDGE [13] NO COUNT [12] HIGH [11:6] LOW [5:0]
+
+	microblaze_disable_interrupts();
+
+	unsigned short tempM1 = *pMMCMd1;
+	unsigned short MASK;
+
+	int ret = 0;
+
+	if(m == 1) {
+		//*pMMCMm2 = (1 << 6);
+		MASK = 0xEFFF;
+		tempM1 &= MASK;
+		tempM1 |= (1<<12);
+		*pMMCMd1 = tempM1;
+		ret = 1;
+	}
+	if(m % 2 == 0) {
+
+		MASK = 0xC000;
+		tempM1 &= MASK;
+		tempM1 |= ((m/2) <<6) + (m/2) + (0<<13) + (0<<12);
+		*pMMCMd1 = tempM1;
+		ret = 2;
+	}
+	if(m % 2 == 1 && m != 1) {
+		MASK = 0xC000;
+		tempM1 &= MASK;
+		tempM1 |= ((m/2) <<6) + (m/2)+1 + (1<<13) + (0<<12);
+		*pMMCMd1 = tempM1;
+		ret = 3;
+	}
+	mbar(1);
+	mbar(2);
+
+	microblaze_enable_interrupts();
+	return ret;
+}
+
+int setMultiplier(int m) {
+	microblaze_disable_interrupts();
+
+	// PHASEMUX [15:13] RESERVED [12] HIGH [11:6] LOW [5:0]
+	// RESERVED [15:10] MX [9:8] EDGE [7] NO COUNT [6] DELAY TIME [5:0]
+
+	unsigned short tempM1 = *pMMCMm1;
+	unsigned short tempM2 = *pMMCMm2;
+	unsigned short MASK;
+
+	int ret = 0;
+
+	if(m == 1) {
+		MASK = 0xF000;
+		tempM1 &= MASK;
+		*pMMCMm1 = tempM1;
+
+		mbar(1);
+		mbar(2);
+
+		MASK = 0xFF3F;
+		tempM2 &= MASK;
+		tempM2 |= (0<<7) + (1<<6);
+		*pMMCMm2 = tempM2;
+		ret = 1;
+	}
+	if(m % 2 == 0) {
+		MASK = 0xF000;
+		tempM1 &= MASK;
+		tempM1 |= ((m/2) <<6) + (m/2);
+		*pMMCMm1 = tempM1;
+
+		mbar(1);
+		mbar(2);
+
+		MASK = 0xFF3F;
+		tempM2 &= MASK;
+		tempM2 |= (0<<6) + (0<<7);
+		*pMMCMm2 = tempM2;
+		ret = 2;
+	}
+	if(m % 2 == 1 && m != 1) {
+		MASK = 0xF000;
+		tempM1 &= MASK;
+		tempM1 |= ((m/2) <<6) + (m/2)+1;
+		*pMMCMm1 = tempM1;
+
+		mbar(1);
+		mbar(2);
+
+		MASK = 0xFF3F;
+		tempM2 &= MASK;
+		tempM2 |= (0<<6) + (1<<7);
+		*pMMCMm2 = tempM2;
+		ret = 3;
+	}
+	mbar(1);
+	mbar(2);
+
+	xil_printf("(((%d %d)))\n\r", tempM1, tempM2);
+
+	microblaze_enable_interrupts();
+	return ret;
+}
+
+int setDividerOutput1(int m) {
+	microblaze_disable_interrupts();
+
+	// PHASEMUX [15:13] RESERVED [12] HIGH [11:6] LOW [5:0]
+	// RESERVED [15:10] MX [9:8] EDGE [7] NO COUNT [6] DELAY TIME [5:0]
+
+	unsigned short tempM1 = *pMMCMo1;
+	unsigned short tempM2 = *pMMCMo2;
+	unsigned short MASK;
+
+	int ret = 0;
+
+	if(m == 1) {
+		MASK = 0xF000;
+		tempM1 &= MASK;
+		*pMMCMo1 = tempM1;
+
+		mbar(1);
+		mbar(2);
+
+		MASK = 0xFF3F;
+		tempM2 &= MASK;
+		tempM2 |= (0<<7) + (1<<6);
+		*pMMCMo2 = tempM2;
+		ret = 1;
+	}
+	if(m % 2 == 0) {
+
+		MASK = 0xF000;
+		tempM1 &= MASK;
+		tempM1 |= ((m/2) <<6) + (m/2);
+		*pMMCMo1 = tempM1;
+
+		mbar(1);
+		mbar(2);
+
+		MASK = 0xFF3F;
+		tempM2 &= MASK;
+		tempM2 |= (0<<6) + (0<<7);
+		*pMMCMo2 = tempM2;
+		ret = 2;
+	}
+	if(m % 2 == 1 && m != 1) {
+		MASK = 0xF000;
+		tempM1 &= MASK;
+		tempM1 |= ((m/2) <<6) + (m/2)+1;
+		*pMMCMo1 = tempM1;
+
+		mbar(1);
+		mbar(2);
+
+		MASK = 0xFF3F;
+		tempM2 &= MASK;
+		tempM2 |= (0<<6) + (1<<7);
+		*pMMCMo2 = tempM2;
+		ret = 3;
+	}
+	mbar(1);
+	mbar(2);
+
+	microblaze_enable_interrupts();
+	return ret;
+}
+
+double calcFreq(int m, int d, int o) {
+	double nenner = d*o;
+	return (double)(100 * m) / ((double)nenner);
+}

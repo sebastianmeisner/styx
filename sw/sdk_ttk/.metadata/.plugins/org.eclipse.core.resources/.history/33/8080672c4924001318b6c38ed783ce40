@@ -1,0 +1,378 @@
+#include <stdio.h>
+#include "platform.h"
+#include "xbasic_types.h"
+#include "xiomodule.h"
+
+volatile int debug = 0;
+
+volatile int second = 0;
+volatile int minute = 48;
+volatile int hour = 0;
+volatile int day = 0;
+volatile int sem = 0;
+
+volatile int err = 0;
+volatile int stop = 0;
+volatile int lastRead = 0;
+
+short multipliers[] = {6,6,6};
+volatile int m = 0;
+
+short div_o[] = {2,2,2};
+volatile int o = 0;
+
+short div[] = {1,1,1};
+volatile int d = 0;
+
+volatile int dirForward = 1;
+
+// PHASEMUX [15:13] RESERVED [12] HIGH [11:6] LOW [5:0]
+volatile unsigned short * pMMCMo1 = (volatile unsigned short *)(0xC0000000 + (0x08<<2));
+// RESERVED [15:10] MX [9:8] EDGE [7] NO COUNT [6] DELAY TIME [5:0]
+volatile unsigned short * pMMCMo2 = (volatile unsigned short *)(0xC0000000 + (0x09<<2));
+// PHASEMUX [15:13] RESERVED [12] HIGH [11:6] LOW [5:0]
+volatile unsigned short * pMMCMm1 = (volatile unsigned short *)(0xC0000000 + (0x14<<2));
+// RESERVED [15:10] MX [9:8] EDGE [7] NO COUNT [6] DELAY TIME [5:0]
+volatile unsigned short * pMMCMm2 = (volatile unsigned short *)(0xC0000000 + (0x15<<2));
+// RESERVED [15:14] EDGE [13] NO COUNT [12] HIGH [11:6] LOW [5:0]
+volatile unsigned short * pMMCMd1 = (volatile unsigned short *)(0xC0000000 + (0x16<<2));
+//volatile unsigned short * pMMCMd2 = (volatile unsigned short *)(0xC0000000 + (0x17<<2));
+
+XIOModule iomdle;
+
+
+void print(char *str);
+//void myISR( void ) __attribute__ ((fast_interrupt));
+
+void myISR0( void) {
+    print("ISR 0\n\r");
+}
+void myISR1( void) {
+    print("ISR 1\n\r");
+}
+void myISR2( void) {
+    print("ISR 2\n\r");
+}
+void myISR3( void) {
+    print("ISR 3\n\r");
+}
+void myISR4( void) {
+    print("ISR 4\n\r");
+}
+void myISR5( void) {
+    print("ISR 5\n\r");
+}
+void myISR6( void) {
+    print("ISR 6\n\r");
+}
+
+// FIT1 Interrupt Service Routine
+void myISR7( void) {
+    //sem = 1;
+    //second++;
+	//print("ISR 7\n\r");
+}
+void myISR8( void) {
+    print("ISR 8\n\r");
+}
+void myISR9( void) {
+    print("ISR 9\n\r");
+}
+void myISR10( void) {
+    print("ISR 10\n\r");
+}
+void myISR11( void) {
+    print("ISR 11\n\r");
+}
+void myISR12( void) {
+    print("ISR 12\n\r");
+}
+void myISR13( void) {
+    print("ISR 13\n\r");
+}
+void myISR14( void) {
+    print("ISR 14\n\r");
+}
+void myISR15( void) {
+    print("ISR 15\n\r");
+}
+void myISR16( void) {
+	print("drdy\n\r");
+	//XIOModule_DiscreteWrite(&iomdle, 1, 0);
+}
+void myISR17( void) {
+	//if(stop == 0) err = 2;
+    print("reset gesetzt\n\r");
+}
+void myISR18( void) {
+	if(stop == 0) err = 3;
+}
+void myISR19( void) {
+	if(stop == 0) err = 4;
+}
+void myISR20( void) {
+	if(stop == 0) err = 5;
+}
+void myISR21( void) {
+	if(stop == 0) err = 6;
+}
+void myISR22( void) {
+	if(stop == 0) err = 7;
+}
+void myISR23( void) {
+	if(stop == 0) err = 8;
+}
+void myISR24( void) {
+	if(stop == 0) err = 9;
+}
+void myISR25( void) {
+	if(stop == 0) err = 10;
+}
+void myISR26( void) {
+	if(stop == 0) err = 11;
+}
+void myISR27( void) {
+	if(stop == 0) err = 12;
+}
+void myISR28( void) {
+	if(stop == 0) {
+		stop = 1;
+		err = 13;
+		lastRead = 1;
+	}
+}
+void myISR29( void) {
+	if(stop == 0)  {
+		stop = 1;
+		err = 14;
+		lastRead = 1;
+	}
+}
+void myISR30( void) {
+
+}
+void myISR31( void) {
+	sem = 1;
+	second++;
+}
+
+int main() {
+
+    init_platform();
+    print("BASIC DESIGN #1\n\r");
+
+    u32 uGpi1, uGpi2, uGpi3, uGpi4, uGpo1;
+    u32 uDevId = XPAR_IOMODULE_0_DEVICE_ID;
+
+    //external interrupt
+    u8  uIntrId = 16;//XPAR_IOMODULE_0_SYSTEM_INTC_INTERRUPT_0_INTR;
+
+
+    XIOModule_Initialize(&iomdle, uDevId);
+    microblaze_register_handler(XIOModule_DeviceInterruptHandler, uDevId );
+    XIOModule_Start(&iomdle);
+
+    uGpi1 = XIOModule_DiscreteRead(&iomdle, 1);
+	uGpi2 = XIOModule_DiscreteRead(&iomdle, 2);
+	uGpi3 = XIOModule_DiscreteRead(&iomdle, 3);
+	uGpi4 = XIOModule_DiscreteRead(&iomdle, 4);
+
+
+
+    //print("CONNECTING INTERRUPT HANDLERS [1..32].. ");
+    XIOModule_Connect(&iomdle, 0, myISR0, NULL);
+	XIOModule_Enable(&iomdle, 0);
+
+	XIOModule_Connect(&iomdle, 1, myISR1, NULL);
+	XIOModule_Enable(&iomdle, 1);
+
+	XIOModule_Connect(&iomdle, 2, myISR2, NULL);
+	XIOModule_Enable(&iomdle, 2);
+
+	XIOModule_Connect(&iomdle, 3, myISR3, NULL);
+	XIOModule_Enable(&iomdle, 3);
+
+	XIOModule_Connect(&iomdle, 4, myISR4, NULL);
+	XIOModule_Enable(&iomdle, 4);
+
+	XIOModule_Connect(&iomdle, 5, myISR5, NULL);
+	XIOModule_Enable(&iomdle, 5);
+
+	XIOModule_Connect(&iomdle, 6, myISR6, NULL);
+	XIOModule_Enable(&iomdle, 6);
+
+	XIOModule_Connect(&iomdle, 7, myISR7, NULL);
+	XIOModule_Enable(&iomdle, 7);
+
+	XIOModule_Connect(&iomdle, 8, myISR8, NULL);
+	XIOModule_Enable(&iomdle, 8);
+
+	XIOModule_Connect(&iomdle, 9, myISR9, NULL);
+	XIOModule_Enable(&iomdle, 9);
+
+	XIOModule_Connect(&iomdle, 10, myISR10, NULL);
+	XIOModule_Enable(&iomdle, 10);
+
+	XIOModule_Connect(&iomdle, 11, myISR11, NULL);
+	XIOModule_Enable(&iomdle, 11);
+
+	XIOModule_Connect(&iomdle, 12, myISR12, NULL);
+	XIOModule_Enable(&iomdle, 12);
+
+	XIOModule_Connect(&iomdle, 13, myISR13, NULL);
+	XIOModule_Enable(&iomdle, 13);
+
+	XIOModule_Connect(&iomdle, 14, myISR14, NULL);
+	XIOModule_Enable(&iomdle, 14);
+
+	XIOModule_Connect(&iomdle, 15, myISR15, NULL);
+	XIOModule_Enable(&iomdle, 15);
+
+	XIOModule_Connect(&iomdle, 16, myISR16, NULL);
+	XIOModule_Enable(&iomdle, 16);
+
+	XIOModule_Connect(&iomdle, 17, myISR17, NULL);
+	XIOModule_Enable(&iomdle, 17);
+
+	XIOModule_Connect(&iomdle, 18, myISR18, NULL);
+	XIOModule_Enable(&iomdle, 18);
+
+	XIOModule_Connect(&iomdle, 19, myISR19, NULL);
+	XIOModule_Enable(&iomdle, 19);
+
+	XIOModule_Connect(&iomdle, 20, myISR20, NULL);
+	XIOModule_Enable(&iomdle, 20);
+
+	XIOModule_Connect(&iomdle, 21, myISR21, NULL);
+	XIOModule_Enable(&iomdle, 21);
+
+	XIOModule_Connect(&iomdle, 22, myISR22, NULL);
+	XIOModule_Enable(&iomdle, 22);
+
+	XIOModule_Connect(&iomdle, 23, myISR23, NULL);
+	XIOModule_Enable(&iomdle, 23);
+
+	XIOModule_Connect(&iomdle, 24, myISR24, NULL);
+	XIOModule_Enable(&iomdle, 24);
+
+	XIOModule_Connect(&iomdle, 25, myISR25, NULL);
+	XIOModule_Enable(&iomdle, 25);
+
+	XIOModule_Connect(&iomdle, 26, myISR26, NULL);
+	XIOModule_Enable(&iomdle, 26);
+
+	XIOModule_Connect(&iomdle, 27, myISR27, NULL);
+	XIOModule_Enable(&iomdle, 27);
+
+	XIOModule_Connect(&iomdle, 28, myISR28, NULL);
+	XIOModule_Enable(&iomdle, 28);
+
+	XIOModule_Connect(&iomdle, 29, myISR29, NULL);
+	XIOModule_Enable(&iomdle, 29);
+
+	XIOModule_Connect(&iomdle, 30, myISR30, NULL);
+	XIOModule_Enable(&iomdle, 30);
+
+	XIOModule_Connect(&iomdle, 31, myISR31, NULL);
+	XIOModule_Enable(&iomdle, 31);
+
+
+
+
+
+    XIOModule_DiscreteWrite(&iomdle, 1, 3);
+    setValue(1, 1, pMMCMo1);
+    setValue(1, 1, pMMCMd1);
+    setValue(1, 1, pMMCMm1);
+    XIOModule_DiscreteWrite(&iomdle, 1, 0);
+
+    microblaze_enable_interrupts();
+
+
+    while(1) {
+    	if(sem == 1 && stop == 0) {
+    		sem = 0;
+    		if(second % 5 == 0) {
+    			second = 0;
+    			minute++;
+    			setMultiplier(2);
+    			setDivider(1);
+    		}
+    		if(second % 60 == 0 && minute % 60 == 0) {
+    			minute = 0;
+    			hour++;
+    		}
+    		xil_printf("%d:%d:%d\n\r", hour, minute, second);
+    	}
+    	if(stop == 1 && lastRead == 0) {
+    		lastRead = 1;
+    		xil_printf("ERROR: %d:%d:%d\n\r", hour, minute, second);
+    		// Hier reconf anstoßen
+    	}
+    }
+
+
+    cleanup_platform();
+
+    return 0;
+}
+
+
+void setValue(int high, int low, short *mptr) {
+	*mptr = (1 << 12) + (high << 6) + low;
+}
+
+void setDivider(int d) {
+	// RESERVED [15:14] EDGE [13] NO COUNT [12] HIGH [11:6] LOW [5:0]
+	if(d <= 0) return;
+	if(d == 1) {
+		*pMMCMd1 = 1<<11;
+		return;
+	}
+	if(d % 2 == 0) {
+		*pMMCMd1 = ((d/2) << 6) + (d/2);
+		return;
+	}
+	if(d % 2 == 1) {
+		*pMMCMd1 = ((d/2) << 6) + ((d/2)+1) + (1 << 12);
+		return;
+	}
+}
+
+void setMultiplier(int m) {
+	// PHASEMUX [15:13] RESERVED [12] HIGH [11:6] LOW [5:0]
+	// RESERVED [15:10] MX [9:8] EDGE [7] NO COUNT [6] DELAY TIME [5:0]
+
+	if(m == 1) {
+		*pMMCMm2 = (1 << 5);
+		return;
+	}
+	if(m % 2 == 0) {
+		*pMMCMm1 = ((m/2) <<6) + (m/2);
+		return;
+	}
+	if(m % 2 == 1) {
+		*pMMCMm1 = ((m/2) <<6) + ((m/2) + 1);
+		*pMMCMm2 = (1 << 6);
+		return;
+	}
+}
+
+void setDividerOutput1(int o) {
+	// PHASEMUX [15:13] RESERVED [12] HIGH [11:6] LOW [5:0]
+	// RESERVED [15:10] MX [9:8] EDGE [7] NO COUNT [6] DELAY TIME [5:0]
+
+	if(o == 1) {
+		*pMMCMo2 = (1 << 5);
+		return;
+	}
+	if(o % 2 == 0) {
+		*pMMCMo1 = ((o/2) <<6) + (o/2);
+		return;
+	}
+	if(o % 2 == 1) {
+		*pMMCMo1 = ((o/2) <<6) + ((o/2) + 1);
+		*pMMCMo2 = (1 << 6);
+		return;
+	}
+}

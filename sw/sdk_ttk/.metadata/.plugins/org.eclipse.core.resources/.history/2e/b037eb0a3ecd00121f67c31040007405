@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include "platform.h"
+#include "xbasic_types.h"
+#include "xiomodule.h"
+
+volatile int count = 0;
+volatile int sem = 0;
+
+void print(char *str);
+//void myISR( void ) __attribute__ ((fast_interrupt));
+
+void myISR( void )
+{
+    //here just to make sure the interrupt working, don't use print in real life.
+    //print("interrupt\n\r");
+    count++;
+    sem = 1;
+}
+
+int main()
+{
+    init_platform();
+    print("Hello World......\n\r");
+
+    //u32 uGpioCha = 1;
+    //u32 uGpi0;
+    u32 uDevId = XPAR_IOMODULE_0_DEVICE_ID;
+    //external interrupt
+    u8  uIntrId = 16;//XPAR_IOMODULE_0_SYSTEM_INTC_INTERRUPT_0_INTR;
+
+    XIOModule NfdsIOMdule;
+
+    XIOModule_Initialize(&NfdsIOMdule, uDevId);
+
+    microblaze_register_handler(XIOModule_DeviceInterruptHandler, uDevId );
+
+    XIOModule_Start(&NfdsIOMdule);
+
+    //XIOModule_ConnectFastHandler(&NfdsIOMdule, uIntrId, (XInterruptHandler) myISR);
+
+    XIOModule_Connect(&NfdsIOMdule, uIntrId, myISR, uDevId);
+
+    XIOModule_Enable(&NfdsIOMdule, uIntrId);
+
+    microblaze_enable_interrupts();
+
+    while(1)
+    {
+        if(sem == 1) {
+        	sem = 0;
+        	if(count == 1024) {
+        		count = 1;
+        	}
+        	xil_printf("%d\n\r", count);
+        }
+        // print("test");
+
+        /*
+    	u32 Temp;
+        //read  gpio
+        uGpi0 = XIOModule_DiscreteRead(&NfdsIOMdule, uGpioCha);
+        //xil_printf("gpi0=%x\n\r", uGpi0);
+        //write gpio
+        XIOModule_DiscreteWrite(&NfdsIOMdule, uGpioCha, uGpi0);
+        //xil_printf("gp00=%x\n\r", uGpi0);
+
+        Temp = XIomodule_In32(NfdsIOMdule.BaseAddress + XIN_ISR_OFFSET);
+        //xil_printf("ISR=%x\n\r", Temp);
+        Temp = XIomodule_In32(NfdsIOMdule.BaseAddress + XIN_IPR_OFFSET);
+        //xil_printf("IPR=%x\n\r", Temp);
+		*/
+    }
+
+    cleanup_platform();
+
+    return 0;
+}
