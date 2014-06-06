@@ -297,7 +297,7 @@ void increaseFrequency() {
 	 * checking if array pointer is not out of bounds
 	 */
 	series_index += 1;
-	if(series_index >= sizeof(m_values) / 4) {
+	if(series_index >= sizeof(m_values) / sizeof(m_values[0])) {
 		series_index = 0;
 	}
 
