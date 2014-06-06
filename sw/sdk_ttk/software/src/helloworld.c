@@ -9,7 +9,8 @@
  */
 
 // Index for parameter arrays m, d and o
-volatile int series_index = 0;
+// Set to -1 so that first increase will lead to index 0
+volatile int series_index = -1;
 
 // interval-value for time intervals. Default: Every
 // 600 seconds the test circuit will be overclocked
