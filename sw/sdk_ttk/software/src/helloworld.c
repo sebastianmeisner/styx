@@ -11,12 +11,13 @@
  */
 
 // Index for parameter arrays m, d and o
-// Set to -1 so that first increase will lead to index 0
-volatile int series_index = -1;
+volatile int series_index = 0;
+int start_index= 0;
+int stop_index = sizeof(m_values) / sizeof(m_values[0]);
 
 // interval-value for time intervals. Default: Every
 // 600 seconds the test circuit will be overclocked
-volatile int interval = 600;
+volatile int interval = 10;
 
 
 // two millisecond variables for interrupt service routine FIT2 to increment
@@ -98,6 +99,7 @@ void oneSecondInterruptRoutine( void* ip) {
 		increaseFrequency();
 		XIOModule_Enable(&iomdle, 31); 	// Activate Error-Observation Interrupt
 	}
+	count_errors_all += count_errors;
 	xil_printf("%d; %d; %d; %d; %d; %d; %d; %d; %d;\n\r", second, count_errors, count_errors_all, series_index, m_values[series_index], d_values[series_index], o_values[series_index], (mmcm_input_freq/(d_values[series_index]*o_values[series_index]))*m_values[series_index], 10000000000/m_ms);
 	count_errors = 0;
 }
@@ -114,11 +116,11 @@ void measureFrequencyInterruptRoutine( void* ip) {
 }
 
 void errorObservationInterruptRoutine( void* ip) {
-	XIOModule_Disable(&iomdle, 31);		// Deactivate Error-Observation Interrupt
+	//XIOModule_Disable(&iomdle, 31);		// Deactivate Error-Observation Interrupt
 	count_errors++;						// count error per second
-	count_errors_all++;					// count all errors occured in this run
+	//count_errors_all++;					// count all errors occured in this run
 	resetTestcircuit();					// reset the test circuit
-	XIOModule_Enable(&iomdle, 31);		// Activate Error-Observation Interrupt
+	//XIOModule_Enable(&iomdle, 31);		// Activate Error-Observation Interrupt
 }
 
 
@@ -142,6 +144,7 @@ int main() {
     			initSystem();
     			initFrequency();
     			resetCounter();
+    			series_index = start_index;
     			state = idle;
     			break;
     		case idle:
@@ -176,7 +179,7 @@ void countError() {
 	count_errors_all++;
 }
 
-void resetTestcircuit() {
+void inline resetTestcircuit() {
 	/**
 	 * According to the GP Output Bitmap the reset bit
 	 * for the test circuit is set
@@ -185,7 +188,7 @@ void resetTestcircuit() {
 	XIOModule_DiscreteWrite(&iomdle, 1, 0);
 }
 
-void resetCounter() {
+void inline resetCounter() {
 	/**
 	 * According to the GP Output Bitmap the reset bit
 	 * for the counter is set
@@ -252,8 +255,9 @@ void increaseFrequency() {
 	 * checking if array pointer is not out of bounds
 	 */
 	series_index += 1;
-	if(series_index >= sizeof(m_values) / sizeof(m_values[0])) {
-		series_index = 0;
+	if( series_index >= sizeof(m_values) / sizeof(m_values[0]) || // dont' let the index run out of bounds
+	    series_index > stop_index	) {
+		series_index = start_index;
 	}
 
 	/**
@@ -283,8 +287,10 @@ void decreaseFrequency() {
 	/**
 	 * checking if array pointer is still not out of bounds
 	 */
-	if(series_index > 0) {
-		series_index--;
+	series_index -= 1;
+	if( series_index == 0 ||
+	    series_index == start_index) {
+		series_index = stop_index;
 	}
 
 	/**
