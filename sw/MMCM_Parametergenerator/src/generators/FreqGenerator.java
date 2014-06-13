@@ -9,7 +9,7 @@ public class FreqGenerator {
 	
 	// Frequency range for which we want to find all possible frequencies
 	public static final double f_min = 360; // MHz
-	public static final double f_max = 400; // MHz
+	public static final double f_max = 700; // MHz
 
 	private static void dedubFromSorted(Vector<MMCMParameters> v){
 		Iterator<MMCMParameters> i = v.iterator();
