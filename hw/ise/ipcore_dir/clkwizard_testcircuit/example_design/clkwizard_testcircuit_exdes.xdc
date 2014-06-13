@@ -50,9 +50,9 @@
 # Input clock periods. These duplicate the values entered for the
 #  input clocks. You can use these to time your system
 #----------------------------------------------------------------
-create_clock -name CLK_IN1 -period 3.334 [get_ports CLK_IN1]
+create_clock -name CLK_IN1 -period 1.429 [get_ports CLK_IN1]
 set_propagated_clock CLK_IN1
-set_input_jitter CLK_IN1 0.03333
+set_input_jitter CLK_IN1 0.0142857142857
 
 # FALSE PATH constraint added on COUNTER_RESET 
 set_false_path -from [get_ports "COUNTER_RESET"]

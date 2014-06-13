@@ -82,7 +82,7 @@ architecture test of clkwizard_testcircuit_tb is
 
 
   -- we'll be using the period in many locations
-  constant PER1        : time := 3.334 ns;
+  constant PER1        : time := 1.429 ns;
 
 
   -- Declare the input clock signals
@@ -99,16 +99,16 @@ architecture test of clkwizard_testcircuit_tb is
   signal CLK_OUT : std_logic_vector(4 downto 1);
 --Freq Check using the M & D values setting and actual Frequency generated
   signal period1 : time := 0 ps;
-constant  ref_period1_clkin1 : time := (3.334*2*4.000/8.000)*1000 ps;
+constant  ref_period1_clkin1 : time := (1.429*7*4.000/12.000)*1000 ps;
    signal prev_rise1 : time := 0 ps;
   signal period2 : time := 0 ps;
-constant  ref_period2_clkin1 : time := (3.334*2*12/8.000)*1000 ps;
+constant  ref_period2_clkin1 : time := (1.429*7*12/12.000)*1000 ps;
    signal prev_rise2 : time := 0 ps;
   signal period3 : time := 0 ps;
-constant  ref_period3_clkin1 : time := (3.334*2*8/8.000)*1000 ps;
+constant  ref_period3_clkin1 : time := (1.429*7*8/12.000)*1000 ps;
    signal prev_rise3 : time := 0 ps;
   signal period4 : time := 0 ps;
-constant  ref_period4_clkin1 : time := (3.334*2*6/8.000)*1000 ps;
+constant  ref_period4_clkin1 : time := (1.429*7*6/12.000)*1000 ps;
    signal prev_rise4 : time := 0 ps;
 
 component clkwizard_testcircuit_exdes

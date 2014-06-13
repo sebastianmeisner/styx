@@ -101,10 +101,10 @@ architecture test of clkwizard_tb is
   signal CLK_OUT : std_logic_vector(2 downto 1);
 --Freq Check using the M & D values setting and actual Frequency generated
   signal period1 : time := 0 ps;
-constant  ref_period1_clkin1 : time := (5.000*2*9.000/9.000)*1000 ps;
+constant  ref_period1_clkin1 : time := (5.000*2*7.000/7.000)*1000 ps;
    signal prev_rise1 : time := 0 ps;
   signal period2 : time := 0 ps;
-constant  ref_period2_clkin1 : time := (5.000*2*3/9.000)*1000 ps;
+constant  ref_period2_clkin1 : time := (5.000*2*1/7.000)*1000 ps;
    signal prev_rise2 : time := 0 ps;
 
 component clkwizard_exdes

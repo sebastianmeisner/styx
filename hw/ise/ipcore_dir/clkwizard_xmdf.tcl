@@ -40,20 +40,12 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path clkwizard/cl
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path clkwizard/example_design/clkwizard_exdes.ucf
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type ucf
-incr fcount
-
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path clkwizard/doc/clk_wiz_ds709.pdf
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
 incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path clkwizard/doc/clk_wiz_gsg521.pdf
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path clkwizard/example_design/clkwizard_exdes.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl
 incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path clkwizard/implement/implement.bat
@@ -106,6 +98,10 @@ incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path clkwizard.ejp
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type AnyView
+incr fcount
+
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path clkwizard.ucf
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type ucf
 incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path clkwizard.vhd

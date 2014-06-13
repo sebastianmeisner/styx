@@ -55,15 +55,15 @@
 -- "Output    Output      Phase     Duty      Pk-to-Pk        Phase"
 -- "Clock    Freq (MHz) (degrees) Cycle (%) Jitter (ps)  Error (ps)"
 ------------------------------------------------------------------------------
--- CLK_OUT1___299.940______0.000______50.0_______89.419_____85.487
--- CLK_OUT2____99.980______0.000______50.0______110.227_____85.487
--- CLK_OUT3___149.970______0.000______50.0______102.028_____85.487
--- CLK_OUT4___199.960______0.000______50.0_______96.588_____85.487
+-- CLK_OUT1___299.910______0.000______50.0_______93.247_____87.200
+-- CLK_OUT2____99.970______0.000______50.0______114.524_____87.200
+-- CLK_OUT3___149.955______0.000______50.0______106.153_____87.200
+-- CLK_OUT4___199.940______0.000______50.0______100.591_____87.200
 --
 ------------------------------------------------------------------------------
 -- "Input Clock   Freq (MHz)    Input Jitter (UI)"
 ------------------------------------------------------------------------------
--- __primary_________300.000____________0.010
+-- __primary_________700.000____________0.010
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -100,7 +100,7 @@ end clkwizard_testcircuit;
 
 architecture xilinx of clkwizard_testcircuit is
   attribute CORE_GENERATION_INFO : string;
-  attribute CORE_GENERATION_INFO of xilinx : architecture is "clkwizard_testcircuit,clk_wiz_v3_6,{component_name=clkwizard_testcircuit,use_phase_alignment=true,use_min_o_jitter=false,use_max_i_jitter=false,use_dyn_phase_shift=false,use_inclk_switchover=false,use_dyn_reconfig=true,feedback_source=FDBK_AUTO,primtype_sel=MMCM_ADV,num_out_clk=4,clkin1_period=3.334,clkin2_period=10.0,use_power_down=true,use_reset=true,use_locked=true,use_inclk_stopped=false,use_status=false,use_freeze=false,use_clk_valid=false,feedback_type=SINGLE,clock_mgr_type=MANUAL,manual_override=false}";
+  attribute CORE_GENERATION_INFO of xilinx : architecture is "clkwizard_testcircuit,clk_wiz_v3_6,{component_name=clkwizard_testcircuit,use_phase_alignment=true,use_min_o_jitter=false,use_max_i_jitter=false,use_dyn_phase_shift=false,use_inclk_switchover=false,use_dyn_reconfig=true,feedback_source=FDBK_AUTO,primtype_sel=MMCM_ADV,num_out_clk=4,clkin1_period=1.429,clkin2_period=10.0,use_power_down=true,use_reset=true,use_locked=true,use_inclk_stopped=false,use_status=false,use_freeze=false,use_clk_valid=false,feedback_type=SINGLE,clock_mgr_type=MANUAL,manual_override=false}";
   -- Input clock buffering / unused connectors
   signal clkin1      : std_logic;
   -- Output clock buffering / unused connectors
@@ -143,8 +143,8 @@ begin
     CLOCK_HOLD           => FALSE,
     COMPENSATION         => "ZHOLD",
     STARTUP_WAIT         => FALSE,
-    DIVCLK_DIVIDE        => 2,
-    CLKFBOUT_MULT_F      => 8.000,
+    DIVCLK_DIVIDE        => 7,
+    CLKFBOUT_MULT_F      => 12.000,
     CLKFBOUT_PHASE       => 0.000,
     CLKFBOUT_USE_FINE_PS => FALSE,
     CLKOUT0_DIVIDE_F     => 4.000,
@@ -163,7 +163,7 @@ begin
     CLKOUT3_PHASE        => 0.000,
     CLKOUT3_DUTY_CYCLE   => 0.500,
     CLKOUT3_USE_FINE_PS  => FALSE,
-    CLKIN1_PERIOD        => 3.334,
+    CLKIN1_PERIOD        => 1.429,
     REF_JITTER1          => 0.010)
   port map
     -- Output clocks
