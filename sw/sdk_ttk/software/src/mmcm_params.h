@@ -9,8 +9,8 @@
 #define MMCM_PARAMS_H_
 
 
- #define MMCM_INPUT_FREQ 650000
-//#define MMCM_INPUT_FREQ 700000
+ //#define MMCM_INPUT_FREQ 650000
+#define MMCM_INPUT_FREQ 700000
 
 /**
  * Array section
