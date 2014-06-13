@@ -22,4 +22,5 @@ for i in 0 1 2 3 4 5 ; do
   cp --backup=numbered --suffix=backup heater_off/heater_$i.ngc ../planahead/styx_new.srcs/heater_$i\_ins\#heater_$i\_off/imports/heater_off/  
 done;
 
+echo "Copying netlists to planahead directory..."
 cp --backup=numbered --suffix=backup main/main.ngc ../planahead/styx_new.srcs/sources_1/imports/main/
