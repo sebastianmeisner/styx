@@ -22,6 +22,9 @@
 *.x86_64
 *.hex
 
+# Backups files
+*~
+
 # Xilinx temporary files
 _ngo
 *.xmsgs
