@@ -33,11 +33,13 @@ num_divisions = sub_div * 5;
 
 i = 0;
 j = 0;
+omit_rows = 2;
 index = 1;
 curr_freq = 0;
 figure;
 bar(frequency,y,width1,'FaceColor',[1.0,1.0,1.0],'EdgeColor','none');   % plot a dummy graph to mark the axis
 xlim([freq_buff(1)-2 freq_buff(rows)+2]);            % set the limits of x-axis
+set(gca,'Color',[0.95 0.95 0.95]);
 hold on                 
 
 freqz_observed = floor(numel(freq_buff)/freq_test_time);                   % total number of frequencies configured
@@ -46,9 +48,10 @@ for i = 1:freqz_observed
     err_dist = zeros(1,num_divisions);                          % bar overlay initialisation
     curr_freq = freq_buff(index+1,1);
     err_count(i,1) = curr_freq;
-    for j = 1:freq_test_time
+    index = index + omit_rows;
+    for j = 1+omit_rows:freq_test_time
         if err_sec(index,1) == 0
-            err_dist(1) = err_dist(1) + 1;
+            %err_dist(1) = err_dist(1) + 1;
         else
             value = log10(err_sec(index,1));
             frac = value - floor(value);
@@ -66,7 +69,12 @@ for i = 1:freqz_observed
     end
     err_count(i,2:num_divisions+1) = err_dist(1,:);
     for k = num_divisions:-1:1                                  % Plot bars
-        bar(curr_freq,k/sub_div,width1,'FaceColor',[1.0*err_dist(1,k)/freq_test_time,0.33,1.0-(1.0*err_dist(1,k)/freq_test_time)],'EdgeColor','none');
+        %bar(curr_freq,k/sub_div,width1,'FaceColor',[1.0*err_dist(1,k)/freq_test_time,0.33,1.0-(1.0*err_dist(1,k)/freq_test_time)],'EdgeColor','none');
+        if err_dist(1,k) ~= 0
+            bar(curr_freq,k/sub_div,width1,'FaceColor',[0.8-0.8*err_dist(1,k)/freq_test_time,0.8-0.8*err_dist(1,k)/freq_test_time,0.8-0.8*err_dist(1,k)/freq_test_time],'EdgeColor','none');
+        else
+            bar(curr_freq,k/sub_div,width1,'FaceColor',[1.0,1.0,1.0],'EdgeColor','none');
+        end
     end
 end
 
@@ -79,9 +87,11 @@ xlabel('Frequency (MHz)');
 ylabel('# of errors per second (logarithmic)');
 % h = get(gca, 'ylabel');
 % set(h, 'FontSize', 14);
-load('mycmap.mat');
-caxis([0 freq_test_time]);
-colormap(cm);
+%%%%%%%%load('mycmap.mat');
+load('GreyScale.mat');
+caxis([1 freq_test_time]);
+%%%%%%%%colormap(cm);
+colormap(greycmap);
 %colorbar('YTickLabel','0', '100', '200', '300', '400', '500', '600');
 colorbar;
 hold off;
