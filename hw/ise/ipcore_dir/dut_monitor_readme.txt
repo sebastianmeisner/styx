@@ -1,5 +1,5 @@
 The following files were generated for 'dut_monitor' in directory
-Y:\Documents\Workspaces\XilinxWorkspace\ttk_project\ttk\ipcore_dir\
+/upb/scratch/users/w/waqas/styx/hw/ise/ipcore_dir/
 
 Generate XCO file:
    CORE Generator input file containing the parameters used to generate a core.

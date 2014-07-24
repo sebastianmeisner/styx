@@ -1,49 +1,59 @@
 INFO:sim:172 - Generating IP...
 Applying current project options...
 Finished applying current project options.
-WARNING:sim - A core named 'clkwizard_testcircuit' already exists in the
-   project. Output products for this core may be overwritten.
-Resolving generics for 'clkwizard_testcircuit'...
-WARNING:sim - A core named 'clkwizard_testcircuit' already exists in the
-   project. Output products for this core may be overwritten.
-Applying external generics to 'clkwizard_testcircuit'...
-Delivering associated files for 'clkwizard_testcircuit'...
-WARNING:sim - Component clk_wiz_v3_6 does not have a valid model name for VHDL
-   synthesis
-Delivering EJava files for 'clkwizard_testcircuit'...
+WARNING:sim - VHDL simulation file type 'Behavioral' is not valid for this core.
+   Overriding with simulation file type 'Structural'.
+WARNING:sim - A core named 'dut_monitor' already exists in the project. Output
+   products for this core may be overwritten.
+Resolving generics for 'dut_monitor'...
+WARNING:sim - VHDL simulation file type 'Behavioral' is not valid for this core.
+   Overriding with simulation file type 'Structural'.
+WARNING:sim - A core named 'dut_monitor' already exists in the project. Output
+   products for this core may be overwritten.
+Applying external generics to 'dut_monitor'...
+Delivering associated files for 'dut_monitor'...
+Generating implementation netlist for 'dut_monitor'...
+INFO:sim - Pre-processing HDL files for 'dut_monitor'...
+Running synthesis for 'dut_monitor'
+Running ngcbuild...
 Delivered 3 files into directory
-/home/meise/git/styx/hw/ise/ipcore_dir/tmp/_cg/clkwizard_testcircuit
-Delivered 1 file into directory
-/home/meise/git/styx/hw/ise/ipcore_dir/tmp/_cg/clkwizard_testcircuit
+/upb/scratch/users/w/waqas/styx/hw/ise/ipcore_dir/tmp/_cg/dut_monitor
+INFO:sim - Running microblaze_mcs_gen_script.tcl
+INFO:sim - Please source the "microblaze_mcs_setup.tcl" script in the Tcl
+   Console to complete MicroBlaze MCS core generation
+Writing VHO instantiation template for 'dut_monitor'...
+WARNING:sim - VHDL simulation file type 'Behavioral' is not valid for this core.
+   Overriding with simulation file type 'Structural'.
+Writing VHDL structural simulation model for 'dut_monitor'...
+WARNING:sim - VHDL simulation file type 'Behavioral' is not valid for this core.
+   Overriding with simulation file type 'Structural'.
+INFO:sim - Running microblaze_mcs_sim_script.tcl
+INFO:sim - C_MICROBLAZE_INSTANCE = dut_monitor
+INFO:sim - Netlist filename = ./_cg/dut_monitor.vhd
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_15.mem" for BRAM 15
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_14.mem" for BRAM 14
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_13.mem" for BRAM 13
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_12.mem" for BRAM 12
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_11.mem" for BRAM 11
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_10.mem" for BRAM 10
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_9.mem" for BRAM 9
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_8.mem" for BRAM 8
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_7.mem" for BRAM 7
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_6.mem" for BRAM 6
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_5.mem" for BRAM 5
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_4.mem" for BRAM 4
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_3.mem" for BRAM 3
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_2.mem" for BRAM 2
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_1.mem" for BRAM 1
+INFO:sim - Setting INIT_FILE = "dut_monitor.lmb_bram_0.mem" for BRAM 0
 Generating ASY schematic symbol...
-Loading device for application Rf_Device from file '6vlx240t.nph' in environment
-/opt/Xilinx/14.7/ISE_DS/ISE/.
 INFO:sim:949 - Finished generation of ASY schematic symbol.
-Generating SYM schematic symbol for 'clkwizard_testcircuit'...
-Generating ISE project...
-XCO file found: clkwizard_testcircuit.xco
-XMDF file found: clkwizard_testcircuit_xmdf.tcl
-Adding /home/meise/git/styx/hw/ise/ipcore_dir/tmp/_cg/clkwizard_testcircuit.asy
--view all -origin_type imported
-Adding /home/meise/git/styx/hw/ise/ipcore_dir/tmp/_cg/clkwizard_testcircuit.ucf
--view all -origin_type created
-Adding /home/meise/git/styx/hw/ise/ipcore_dir/tmp/_cg/clkwizard_testcircuit.vhd
--view all -origin_type created
-INFO:HDLCompiler:1061 - Parsing VHDL file
-   "/home/meise/git/styx/hw/ise/ipcore_dir/tmp/_cg/clkwizard_testcircuit.vhd"
-   into library work
-INFO:ProjectMgmt - Parsing design hierarchy completed successfully.
-Adding /home/meise/git/styx/hw/ise/ipcore_dir/tmp/_cg/clkwizard_testcircuit.vho
--view all -origin_type imported
-INFO:TclTasksC:2116 - The automatic calculation of top has been turned-off.
-   Please set the new top explicitly by running the "project set top" command.
-   To re-calculate the new top automatically, set the "Auto Implementation Top"
-   property to true.
-Top level has been set to "/clkwizard_testcircuit"
+Generating SYM schematic symbol for 'dut_monitor'...
+Regenerating ISE project file for 'dut_monitor'...
 Generating README file...
 Generating FLIST file...
 INFO:sim:948 - Finished FLIST file generation.
 Launching README viewer...
 Moving files to output directory...
 Finished moving files to output directory
-Wrote CGP file for project 'clkwizard_testcircuit'.
+Wrote CGP file for project 'dut_monitor'.
